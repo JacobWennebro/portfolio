@@ -1,0 +1,79 @@
+---
+interface Props {
+    images: string[];
+    href?: string;
+    name: string;
+    date: string;
+}
+
+const { images, href, name, date } = Astro.props;
+
+const stack = images.slice(0, 3);
+
+function rand(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}
+
+const cards = stack.map((src, i) => ({
+    src,
+    rotate: i === 0 ? 0 : rand(-8, 8),
+    offsetX: i === 0 ? 0 : rand(-6, 6),
+    offsetY: i === 0 ? 0 : rand(-6, 6),
+    hoverRotate: (i - 1) * 4,
+    hoverOffsetX: (i - 1) * 15,
+    hoverOffsetY: i === 0 ? -4 : i * 3,
+    z: stack.length - i,
+    isFront: i === 0,
+}));
+---
+
+<a
+    href={href}
+    class="polaroid-stack select-none group relative block w-56 h-72"
+>
+    {
+        cards.map((card) => (
+            <div
+                class="polaroid-card absolute inset-0 bg-white p-2 pb-16 shadow-lg shadow-black/30 transition-transform duration-300 ease-out"
+                style={`transform: rotate(${card.rotate.toFixed(1)}deg) translate(${card.offsetX.toFixed(0)}px, ${card.offsetY.toFixed(0)}px); z-index: ${card.z};`}
+                data-rest={`rotate(${card.rotate.toFixed(1)}deg) translate(${card.offsetX.toFixed(0)}px, ${card.offsetY.toFixed(0)}px)`}
+                data-hover={`rotate(${card.hoverRotate}deg) translate(${card.hoverOffsetX}px, ${card.hoverOffsetY}px)`}
+            >
+                <img
+                    src={card.src}
+                    alt=""
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                />
+                {card.isFront && (
+                    <div class="absolute bottom-3 left-3 right-3 flex items-baseline justify-between">
+                        <span class="text-neutral-800 text-sm font-medium">
+                            {name}
+                        </span>
+                        <span class="text-neutral-500 text-xs">{date}</span>
+                    </div>
+                )}
+            </div>
+        ))
+    }
+</a>
+
+<script>
+    document.querySelectorAll(".polaroid-stack").forEach((stack) => {
+        const cards = stack.querySelectorAll(
+            ".polaroid-card",
+        ) as NodeListOf<HTMLElement>;
+
+        stack.addEventListener("mouseenter", () => {
+            cards.forEach((card) => {
+                card.style.transform = card.dataset.hover || "";
+            });
+        });
+
+        stack.addEventListener("mouseleave", () => {
+            cards.forEach((card) => {
+                card.style.transform = card.dataset.rest || "";
+            });
+        });
+    });
+</script>

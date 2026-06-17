@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro";
+import PolaroidStack from "../components/PolaroidStack.astro";
+import { getCollection } from "astro:content";
+
+const albums = (await getCollection("albums")).sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+---
+
+<Base title="Photo Album — Jacob Wennebro">
+    <main class="max-w-3xl mx-auto px-6 py-20">
+        <a
+            href="/"
+            class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
+        >
+            ← Back
+        </a>
+
+        <h1 class="text-3xl font-semibold tracking-tight mt-8 mb-16">
+            Trips Album
+        </h1>
+
+        <div
+            class="grid grid-cols-2 md:grid-cols-3 gap-24 justify-items-center"
+        >
+            {
+                albums.map((album) => (
+                    <PolaroidStack
+                        images={album.data.images.slice(0, 3).map((p) => p.src)}
+                        href={`/trips/${album.id}`}
+                        name={album.data.name}
+                        date={album.data.date}
+                    />
+                ))
+            }
+        </div>
+    </main>
+</Base>

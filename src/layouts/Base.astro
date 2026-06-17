@@ -1,0 +1,81 @@
+---
+import "../styles/global.css";
+import { ArrowUpRight } from "lucide-astro";
+
+interface Props {
+    title: string;
+    description?: string;
+    ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const defaultDescription = "Jacob Wennebro — software engineer.";
+const metaDescription = description || defaultDescription;
+const siteName = "Jacob Wennebro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={canonicalURL.href} />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:site_name" content={siteName} />
+        {ogImage && <meta property="og:image" content={ogImage} />}
+
+        <!-- Twitter Card -->
+        <meta
+            name="twitter:card"
+            content={ogImage ? "summary_large_image" : "summary"}
+        />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={metaDescription} />
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
+    </head>
+    <body
+        class="bg-neutral-950 text-neutral-100 min-h-screen font-sans antialiased"
+    >
+        <div class="fixed bottom-0 right-0 p-6 z-50">
+            <a
+                href="mailto:jacob@wennebro.com"
+                class="text-neutral-500 hover:text-neutral-100 text-sm transition-colors duration-200 inline-flex items-center gap-1.5"
+            >
+                <ArrowUpRight size={14} />
+                jacob@wennebro.com
+            </a>
+        </div>
+
+        <slot />
+
+        <script>
+            import Lenis from "lenis";
+
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t: number) =>
+                    Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+            });
+
+            (window as any).__lenis = lenis;
+
+            function raf(time: number) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+        </script>
+    </body>
+</html>

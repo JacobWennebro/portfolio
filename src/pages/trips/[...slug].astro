@@ -1,0 +1,187 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+
+export const getStaticPaths = (async () => {
+    const albums = await getCollection("albums");
+    return albums.map((album) => ({
+        params: { slug: album.id },
+        props: { album },
+    }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { album } = Astro.props as Props;
+const { Content } = await render(album);
+
+function rand(min: number, max: number) {
+    return Math.random() * (max - min) + min;
+}
+
+const scattered = album.data.images.map((photo) => ({
+    ...photo,
+    rotate: rand(-5, 5),
+    offsetX: rand(0, 45),
+    marginTop: rand(-60, -10),
+}));
+---
+
+<Base title={`${album.data.name} — Jacob Wennebro`}>
+    <!-- Fixed header -->
+    <header class="fixed top-0 left-0 w-full z-50 px-6 py-5">
+        <a
+            href="/trips"
+            class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
+        >
+            ← Trips
+        </a>
+    </header>
+
+    <!-- Sticky centered title -->
+    <div
+        class="fixed top-0 left-0 w-full z-40 flex flex-col items-center justify-center pt-20 pb-6 pointer-events-none"
+    >
+        <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
+        <p class="text-neutral-500 text-sm mt-2">{album.data.date}</p>
+    </div>
+
+    <!-- Gradient mask -->
+    <div
+        class="fixed top-0 left-0 w-full h-44 z-30 pointer-events-none"
+        style="background: linear-gradient(to bottom, rgb(10 10 10) 60%, transparent 100%);"
+    >
+    </div>
+
+    <main class="relative pt-52 pb-20 px-4 max-w-5xl mx-auto">
+        <div class="relative">
+            {
+                scattered.map((photo, i) => (
+                    <div
+                        class="polaroid relative w-[280px] md:w-[340px] lg:w-[420px] md:mx-0"
+                        style={`transform: rotate(${photo.rotate.toFixed(1)}deg); margin-left: ${photo.offsetX.toFixed(0)}%; margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
+                    >
+                        <div class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
+                            <img
+                                src={photo.src}
+                                alt={photo.caption}
+                                class="w-full aspect-4/3 object-cover"
+                                loading="lazy"
+                            />
+                            <p class="absolute bottom-4 left-0 w-full text-center text-neutral-700 text-xs font-medium tracking-wide">
+                                {photo.caption}
+                            </p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+
+        <!-- Written content below photos -->
+        <article
+            class="max-w-xl mx-auto mt-32 prose prose-invert prose-neutral prose-sm"
+        >
+            <Content />
+        </article>
+    </main>
+
+    <script>
+        let keyboardActive = false;
+
+        function updateOpacities() {}
+
+        window.addEventListener("scroll", updateOpacities, { passive: true });
+        updateOpacities();
+
+        const polaroids = document.querySelectorAll(
+            ".polaroid",
+        ) as NodeListOf<HTMLElement>;
+        let activeIndex = -1;
+
+        function highlightPolaroid(index: number) {
+            keyboardActive = true;
+            activeIndex = index;
+            const total = polaroids.length;
+            polaroids.forEach((el, i) => {
+                el.style.transition = "filter 0.3s ease";
+                if (i === activeIndex) {
+                    el.style.filter = "";
+                    el.style.zIndex = String(total + 1);
+                } else {
+                    el.style.filter = "brightness(0.3)";
+                    el.style.zIndex = String(total - i);
+                }
+            });
+
+            const el = polaroids[activeIndex];
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+            const viewCenter = window.innerHeight / 2;
+            const scrollTarget = window.scrollY + (elCenter - viewCenter);
+            const lenis = (window as any).__lenis;
+            if (lenis) {
+                lenis.scrollTo(scrollTarget, { duration: 1.2 });
+            }
+        }
+
+        function clearHighlight() {
+            keyboardActive = false;
+            activeIndex = -1;
+            const total = polaroids.length;
+            polaroids.forEach((el, i) => {
+                el.style.filter = "";
+                el.style.zIndex = String(total - i);
+            });
+            updateOpacities();
+        }
+
+        function findClosestToCenter(): number {
+            const viewCenter = window.innerHeight / 2;
+            let closest = 0;
+            let minDist = Infinity;
+            polaroids.forEach((el, i) => {
+                const rect = el.getBoundingClientRect();
+                const elCenter = rect.top + rect.height / 2;
+                const dist = Math.abs(elCenter - viewCenter);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = i;
+                }
+            });
+            return closest;
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                if (activeIndex === -1) {
+                    highlightPolaroid(findClosestToCenter());
+                } else {
+                    const next =
+                        activeIndex < polaroids.length - 1
+                            ? activeIndex + 1
+                            : activeIndex;
+                    highlightPolaroid(next);
+                }
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                if (activeIndex === -1) {
+                    highlightPolaroid(findClosestToCenter());
+                } else if (activeIndex <= 0) {
+                    clearHighlight();
+                } else {
+                    highlightPolaroid(activeIndex - 1);
+                }
+            } else if (e.key === "Escape") {
+                clearHighlight();
+            }
+        });
+
+        document.addEventListener("mousemove", () => {
+            if (activeIndex !== -1) {
+                clearHighlight();
+            }
+        });
+    </script>
+</Base>
