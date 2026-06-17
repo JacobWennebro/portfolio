@@ -8,6 +8,7 @@ import cloudflare from '@astrojs/cloudflare';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://wennebro.com',
+  trailingSlash: 'never',
   integrations: [sitemap()],
 
   vite: {
