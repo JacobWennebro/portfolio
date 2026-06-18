@@ -57,12 +57,12 @@ const scattered = album.data.images.map((photo) => ({
     >
     </div>
 
-    <main class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto">
+    <main class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto overflow-hidden">
         <div class="relative">
             {
                 scattered.map((photo, i) => (
                     <div
-                        class="polaroid relative w-[280px] md:w-[340px] lg:w-[420px] md:mx-0"
+                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] md:mx-0"
                         style={`transform: rotate(${photo.rotate.toFixed(1)}deg); margin-left: ${photo.offsetX.toFixed(0)}%; margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
                     >
                         <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
@@ -76,7 +76,7 @@ const scattered = album.data.images.map((photo) => ({
                                 data-fade
                             />
                             {photo.caption && (
-                                <figcaption class="absolute bottom-4 left-0 w-full text-center text-neutral-700 text-xs font-medium tracking-wide">
+                                <figcaption class="absolute bottom-4 left-3 right-3 text-center text-neutral-700 text-xs font-medium tracking-wide truncate">
                                     {photo.caption}
                                 </figcaption>
                             )}

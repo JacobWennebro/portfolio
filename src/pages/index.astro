@@ -9,26 +9,33 @@ const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 const hash = Array.from(new Uint8Array(hashBuffer))
 	.map((b) => b.toString(16).padStart(2, "0"))
 	.join("");
-const avatarUrl = `https://gravatar.com/avatar/${hash}?s=128`;
+
+const res = await fetch(`https://gravatar.com/avatar/${hash}?s=256`);
+const buffer = await res.arrayBuffer();
+const bytes = new Uint8Array(buffer);
+let binary = "";
+for (let i = 0; i < bytes.length; i++) {
+	binary += String.fromCharCode(bytes[i]);
+}
+const base64 = btoa(binary);
+const contentType = res.headers.get("content-type") ?? "image/jpeg";
+const avatarDataUrl = `data:${contentType};base64,${base64}`;
 ---
 
 <Base
 	title="Jacob Wennebro"
 	description="Software engineer. Building things, taking photos, and writing about it."
 >
-	<link slot="head" rel="preload" href={avatarUrl} as="image" />
 	<div class="min-h-screen flex items-center justify-center">
 		<main
 			class="max-w-md w-full px-6 py-16 flex flex-col items-center text-center gap-8"
 		>
 			<img
-				src={avatarUrl}
+				src={avatarDataUrl}
 				alt="Jacob Wennebro — software engineer"
 				width={128}
 				height={128}
-				class="w-32 h-32 rounded-full object-cover transition-all duration-500"
-				loading="eager"
-				fetchpriority="high"
+				class="w-32 h-32 rounded-full object-cover"
 			/>
 
 			<div class="space-y-3">
