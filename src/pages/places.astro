@@ -8,7 +8,7 @@ const albums = (await getCollection("albums")).sort(
 );
 ---
 
-<Base title="Photo Album — Jacob Wennebro">
+<Base title="Places — Jacob Wennebro">
     <!-- Fixed header -->
     <header class="fixed top-0 left-0 z-50 px-6 py-5">
         <a
@@ -20,18 +20,19 @@ const albums = (await getCollection("albums")).sort(
     </header>
 
     <main class="max-w-3xl mx-auto px-6 py-20 pt-20">
-        <h1 class="text-3xl font-semibold tracking-tight mt-8 mb-16">
-            Trips Album
-        </h1>
+        <h1 class="text-3xl font-semibold tracking-tight mt-8 mb-4">Places</h1>
+        <p class="text-neutral-400 text-base mb-16">
+            A personal archive of memorable places I've been.
+        </p>
 
         <div
-            class="grid grid-cols-2 md:grid-cols-3 gap-24 justify-items-center"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-24 justify-items-center"
         >
             {
                 albums.map((album) => (
                     <PolaroidStack
                         images={album.data.images.slice(0, 3).map((p) => p.src)}
-                        href={`/trips/${album.id}`}
+                        href={`/places/${album.id}`}
                         name={album.data.name}
                         date={album.data.date}
                         country={album.data.country}

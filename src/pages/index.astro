@@ -27,6 +27,8 @@ const avatarUrl = `https://gravatar.com/avatar/${hash}?s=128`;
 				width={128}
 				height={128}
 				class="w-32 h-32 rounded-full object-cover transition-all duration-500"
+				loading="eager"
+				fetchpriority="high"
 			/>
 
 			<div class="space-y-3">
@@ -52,10 +54,10 @@ const avatarUrl = `https://gravatar.com/avatar/${hash}?s=128`;
 					Projects
 				</a>
 				<a
-					href="/trips"
+					href="/places"
 					class="text-neutral-400 hover:text-neutral-100 transition-colors duration-200"
 				>
-					Trips
+					Places
 				</a>
 			</nav>
 
