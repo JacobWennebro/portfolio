@@ -3,16 +3,14 @@ name: Bojnice Castle
 country: SK
 date: June 2026
 images:
-  - src: ../../../assets/uploads/img_1720.jpg
+  - src: ../../../assets/uploads/bojnice-01.jpg
     caption: Bojnice Castle, front
-  - src: ../../../assets/uploads/img_1648.jpg
-    caption: test
-  - src: ../../../assets/uploads/img_1659.jpg
-    caption: ""
-  - src: ../../../assets/uploads/img_1666.jpg
-  - src: ../../../assets/uploads/img_1696.jpg
-  - src: ../../../assets/uploads/img_1677.jpg
-  - src: ../../../assets/uploads/img_1687.jpg
-  - src: ../../../assets/uploads/img_1706.jpg
+  - src: ../../../assets/uploads/bojnice-02.jpg
+  - src: ../../../assets/uploads/bojnice-03.jpg
+  - src: ../../../assets/uploads/bojnice-04.jpg
+  - src: ../../../assets/uploads/bojnice-05.jpg
+  - src: ../../../assets/uploads/bojnice-06.jpg
+  - src: ../../../assets/uploads/bojnice-07.jpg
+  - src: ../../../assets/uploads/bojnice-08.jpg
 ---
 test!

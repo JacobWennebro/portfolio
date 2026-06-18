@@ -3,16 +3,16 @@ name: A Night in Skopje
 country: MK
 date: November 2025
 images:
-  - src: ../../../assets/uploads/582791437_18163348003391394_4480599628797213292_n.jpg
-  - src: ../../../assets/uploads/582441275_18163348018391394_4150934134467331216_n.jpg
-  - src: ../../../assets/uploads/581800131_18163348027391394_4147122018742290593_n.jpg
-  - src: ../../../assets/uploads/583714612_18163348036391394_7154291089625719522_n.jpg
-  - src: ../../../assets/uploads/583274019_18163348045391394_2837756382478600468_n.jpg
-  - src: ../../../assets/uploads/583638463_18163348054391394_5187019513762602658_n.jpg
-  - src: ../../../assets/uploads/584074532_18163348063391394_4491559825443642568_n.jpg
-  - src: ../../../assets/uploads/583446585_18163348075391394_4968879153803855292_n.jpg
-  - src: ../../../assets/uploads/582514670_18163348108391394_6160005805890490673_n.jpg
-  - src: ../../../assets/uploads/582087874_18163348120391394_6029914668364228291_n.jpg
-  - src: ../../../assets/uploads/582411259_18163348132391394_6820451554795862732_n.jpg
+  - src: ../../../assets/uploads/skopje-01.jpg
+  - src: ../../../assets/uploads/skopje-02.jpg
+  - src: ../../../assets/uploads/skopje-03.jpg
+  - src: ../../../assets/uploads/skopje-04.jpg
+  - src: ../../../assets/uploads/skopje-05.jpg
+  - src: ../../../assets/uploads/skopje-06.jpg
+  - src: ../../../assets/uploads/skopje-07.jpg
+  - src: ../../../assets/uploads/skopje-08.jpg
+  - src: ../../../assets/uploads/skopje-09.jpg
+  - src: ../../../assets/uploads/skopje-10.jpg
+  - src: ../../../assets/uploads/skopje-11.jpg
 ---
 North Macedonia
