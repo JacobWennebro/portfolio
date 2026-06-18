@@ -1,0 +1,37 @@
+---
+import Base from "../layouts/Base.astro";
+import NotFound from "../components/NotFound.astro";
+
+const isProd = import.meta.env.PROD;
+---
+
+{
+    isProd ? (
+        <Base title="Lost — Jacob Wennebro">
+            <NotFound />
+        </Base>
+    ) : (
+        <html>
+            <head>
+                <meta charset="utf-8" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+                <meta name="robots" content="noindex" />
+                <link
+                    href="/admin/config.yml"
+                    type="text/yaml"
+                    rel="cms-config-url"
+                />
+                <title>Content Manager</title>
+            </head>
+            <body>
+                <script
+                    is:inline
+                    src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"
+                />
+            </body>
+        </html>
+    )
+}

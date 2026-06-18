@@ -6,7 +6,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev & npx decap-server",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -25,5 +25,8 @@
   },
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "decap-server": "^3.9.1"
   }
 }

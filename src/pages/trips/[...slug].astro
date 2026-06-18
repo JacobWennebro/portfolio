@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 export const getStaticPaths = (async () => {
@@ -30,7 +31,7 @@ const scattered = album.data.images.map((photo) => ({
 
 <Base title={`${album.data.name} — Jacob Wennebro`}>
     <!-- Fixed header -->
-    <header class="fixed top-0 left-0 w-full z-50 px-6 py-5">
+    <header class="fixed top-0 left-0 z-50 px-6 py-5">
         <a
             href="/trips"
             class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
@@ -39,9 +40,9 @@ const scattered = album.data.images.map((photo) => ({
         </a>
     </header>
 
-    <!-- Sticky centered title -->
+    <!-- Fixed centered title -->
     <div
-        class="fixed top-0 left-0 w-full z-40 flex flex-col items-center justify-center pt-20 pb-6 pointer-events-none"
+        class="fixed top-0 left-0 w-full z-40 flex flex-col items-center justify-center pt-12 pb-6 pointer-events-none"
     >
         <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
         <p class="text-neutral-500 text-sm mt-2">{album.data.date}</p>
@@ -49,12 +50,12 @@ const scattered = album.data.images.map((photo) => ({
 
     <!-- Gradient mask -->
     <div
-        class="fixed top-0 left-0 w-full h-44 z-30 pointer-events-none"
+        class="fixed top-0 left-0 w-full h-32 z-30 pointer-events-none"
         style="background: linear-gradient(to bottom, rgb(10 10 10) 60%, transparent 100%);"
     >
     </div>
 
-    <main class="relative pt-52 pb-20 px-4 max-w-5xl mx-auto">
+    <main class="relative pt-32 pb-24 px-4 max-w-5xl mx-auto">
         <div class="relative">
             {
                 scattered.map((photo, i) => (
@@ -63,9 +64,11 @@ const scattered = album.data.images.map((photo) => ({
                         style={`transform: rotate(${photo.rotate.toFixed(1)}deg); margin-left: ${photo.offsetX.toFixed(0)}%; margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
                     >
                         <div class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
-                            <img
+                            <Image
                                 src={photo.src}
                                 alt={photo.caption}
+                                width={840}
+                                quality={80}
                                 class="w-full aspect-4/3 object-cover"
                                 loading="lazy"
                             />

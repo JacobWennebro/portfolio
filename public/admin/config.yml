@@ -1,0 +1,39 @@
+local_backend: true
+
+backend:
+  name: git-gateway
+
+media_folder: src/assets/uploads
+public_folder: ../../assets/uploads
+
+collections:
+  - name: blog
+    label: Blog
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: string }
+      - { label: Description, name: description, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: albums
+    label: Albums
+    folder: src/content/albums
+    create: true
+    identifier_field: name
+    slug: "{{country}}/{{slug}}-{{date}}"
+    media_folder: ../../../assets/uploads
+    public_folder: ../../../assets/uploads
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Country, name: country, widget: string, hint: "ISO 3166-1 alpha-2 code (e.g. SK, IT, JP)" }
+      - { label: Date, name: date, widget: datetime, format: "MMMM YYYY", date_format: "MMMM YYYY", time_format: false }
+      - label: Images
+        name: images
+        widget: list
+        fields:
+          - { label: Photo, name: src, widget: image }
+          - { label: Caption, name: caption, widget: string }
+      - { label: Body, name: body, widget: markdown }

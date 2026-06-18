@@ -1,12 +1,16 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Props {
-    images: string[];
+    images: ImageMetadata[];
     href?: string;
     name: string;
     date: string;
+    country: string;
 }
 
-const { images, href, name, date } = Astro.props;
+const { images, href, name, date, country } = Astro.props;
 
 const stack = images.slice(0, 3);
 
@@ -39,9 +43,11 @@ const cards = stack.map((src, i) => ({
                 data-rest={`rotate(${card.rotate.toFixed(1)}deg) translate(${card.offsetX.toFixed(0)}px, ${card.offsetY.toFixed(0)}px)`}
                 data-hover={`rotate(${card.hoverRotate}deg) translate(${card.hoverOffsetX}px, ${card.hoverOffsetY}px)`}
             >
-                <img
+                <Image
                     src={card.src}
                     alt=""
+                    width={448}
+                    quality={70}
                     class="w-full h-full object-cover"
                     loading="lazy"
                 />
@@ -49,6 +55,9 @@ const cards = stack.map((src, i) => ({
                     <div class="absolute bottom-3 left-3 right-3 flex items-baseline justify-between">
                         <span class="text-neutral-800 text-sm font-medium">
                             {name}
+                        </span>
+                        <span class="text-neutral-400 text-[10px] font-mono uppercase tracking-widest">
+                            {country}
                         </span>
                         <span class="text-neutral-500 text-xs">{date}</span>
                     </div>

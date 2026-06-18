@@ -16,6 +16,7 @@ const avatarUrl = `https://gravatar.com/avatar/${hash}?s=256`;
 	title="Jacob Wennebro"
 	description="Software engineer. Building things, taking photos, and writing about it."
 >
+	<link slot="head" rel="preload" href={avatarUrl} as="image" />
 	<div class="min-h-screen flex items-center justify-center">
 		<main
 			class="max-w-md w-full px-6 py-16 flex flex-col items-center text-center gap-8"

@@ -9,14 +9,17 @@ const albums = (await getCollection("albums")).sort(
 ---
 
 <Base title="Photo Album — Jacob Wennebro">
-    <main class="max-w-3xl mx-auto px-6 py-20">
+    <!-- Fixed header -->
+    <header class="fixed top-0 left-0 z-50 px-6 py-5">
         <a
             href="/"
             class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
         >
             ← Back
         </a>
+    </header>
 
+    <main class="max-w-3xl mx-auto px-6 py-20 pt-20">
         <h1 class="text-3xl font-semibold tracking-tight mt-8 mb-16">
             Trips Album
         </h1>
@@ -31,6 +34,7 @@ const albums = (await getCollection("albums")).sort(
                         href={`/trips/${album.id}`}
                         name={album.data.name}
                         date={album.data.date}
+                        country={album.data.country}
                     />
                 ))
             }

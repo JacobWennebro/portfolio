@@ -42,6 +42,8 @@ const siteName = "Jacob Wennebro";
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={metaDescription} />
         {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+        <slot name="head" />
     </head>
     <body
         class="bg-neutral-950 text-neutral-100 min-h-screen font-sans antialiased"
