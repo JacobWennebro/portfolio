@@ -63,6 +63,21 @@ const siteName = "Jacob Wennebro";
         <script>
             import Lenis from "lenis";
 
+            // Image fade-in
+            document
+                .querySelectorAll<HTMLImageElement>("img[data-fade]")
+                .forEach((img) => {
+                    if (img.complete) {
+                        img.classList.add("loaded");
+                    } else {
+                        img.addEventListener(
+                            "load",
+                            () => img.classList.add("loaded"),
+                            { once: true },
+                        );
+                    }
+                });
+
             const lenis = new Lenis({
                 duration: 1.2,
                 easing: (t: number) =>

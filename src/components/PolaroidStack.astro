@@ -54,6 +54,7 @@ const cards = stack.map((src, i) => ({
                     class="w-full h-full object-cover"
                     loading={card.isFront ? "eager" : "lazy"}
                     fetchpriority={card.isFront ? "high" : "low"}
+                    data-fade
                 />
                 {card.isFront && (
                     <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
