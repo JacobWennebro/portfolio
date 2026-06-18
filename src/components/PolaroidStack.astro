@@ -15,6 +15,8 @@ const { images, href, name, date, country } = Astro.props;
 
 const countryName = countries.find((c) => c.code === country)?.name ?? country;
 
+const shortDate = date.replace(/^(\w{3})\w+/, "$1");
+
 const stack = images.slice(0, 3);
 
 function rand(min: number, max: number) {
@@ -66,7 +68,9 @@ const cards = stack.map((src, i) => ({
                                 {countryName}
                             </span>
                         </div>
-                        <span class="text-neutral-500 text-xs">{date}</span>
+                        <span class="text-neutral-500 text-xs">
+                            {shortDate}
+                        </span>
                     </div>
                 )}
             </div>
