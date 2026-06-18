@@ -1,7 +1,11 @@
 local_backend: true
 
 backend:
-  name: git-gateway
+  name: github
+  repo: jacobwennebro/portfolio
+  branch: main
+  base_url: https://www.wennebro.com
+  auth_endpoint: /api/auth
 
 media_folder: src/assets/uploads
 public_folder: ../../assets/uploads
