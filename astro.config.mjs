@@ -11,13 +11,11 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [sitemap()],
 
-  image: {
-    service: { entrypoint: 'astro/assets/services/sharp' },
-  },
-
   vite: {
     plugins: [tailwindcss()]
   },
 
-  adapter: cloudflare()
+  adapter: cloudflare({
+    imageService: 'compile',
+  })
 });
