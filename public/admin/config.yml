@@ -22,6 +22,7 @@ collections:
     label: Albums
     folder: src/content/albums
     create: true
+    nested: { depth: 2 }
     identifier_field: name
     slug: "{{country}}/{{slug}}-{{date}}"
     media_folder: ../../../assets/uploads
@@ -35,5 +36,5 @@ collections:
         widget: list
         fields:
           - { label: Photo, name: src, widget: image }
-          - { label: Caption, name: caption, widget: string }
+          - { label: Caption, name: caption, widget: string, required: false }
       - { label: Body, name: body, widget: markdown }

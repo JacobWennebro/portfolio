@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import countries from "../data/countries.json";
 
 interface Props {
     images: ImageMetadata[];
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const { images, href, name, date, country } = Astro.props;
+
+const countryName = countries.find((c) => c.code === country)?.name ?? country;
 
 const stack = images.slice(0, 3);
 
@@ -52,13 +55,15 @@ const cards = stack.map((src, i) => ({
                     loading="lazy"
                 />
                 {card.isFront && (
-                    <div class="absolute bottom-3 left-3 right-3 flex items-baseline justify-between">
-                        <span class="text-neutral-800 text-sm font-medium">
-                            {name}
-                        </span>
-                        <span class="text-neutral-400 text-[10px] font-mono uppercase tracking-widest">
-                            {country}
-                        </span>
+                    <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                        <div class="flex flex-col">
+                            <span class="text-neutral-800 text-sm font-medium">
+                                {name}
+                            </span>
+                            <span class="text-neutral-400 text-[10px] font-mono uppercase tracking-widest">
+                                {countryName}
+                            </span>
+                        </div>
                         <span class="text-neutral-500 text-xs">{date}</span>
                     </div>
                 )}

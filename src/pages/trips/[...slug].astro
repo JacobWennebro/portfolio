@@ -45,7 +45,9 @@ const scattered = album.data.images.map((photo) => ({
         class="fixed top-0 left-0 w-full z-40 flex flex-col items-center justify-center pt-12 pb-6 pointer-events-none"
     >
         <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
-        <p class="text-neutral-500 text-sm mt-2">{album.data.date}</p>
+        <p class="text-neutral-500 text-sm mt-2">
+            {album.data.country} / {album.data.date}
+        </p>
     </div>
 
     <!-- Gradient mask -->
@@ -55,7 +57,7 @@ const scattered = album.data.images.map((photo) => ({
     >
     </div>
 
-    <main class="relative pt-32 pb-24 px-4 max-w-5xl mx-auto">
+    <main class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto">
         <div class="relative">
             {
                 scattered.map((photo, i) => (
@@ -63,19 +65,21 @@ const scattered = album.data.images.map((photo) => ({
                         class="polaroid relative w-[280px] md:w-[340px] lg:w-[420px] md:mx-0"
                         style={`transform: rotate(${photo.rotate.toFixed(1)}deg); margin-left: ${photo.offsetX.toFixed(0)}%; margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
                     >
-                        <div class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
+                        <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
                             <Image
                                 src={photo.src}
-                                alt={photo.caption}
+                                alt={photo.caption ?? ""}
                                 width={840}
                                 quality={80}
                                 class="w-full aspect-4/3 object-cover"
                                 loading="lazy"
                             />
-                            <p class="absolute bottom-4 left-0 w-full text-center text-neutral-700 text-xs font-medium tracking-wide">
-                                {photo.caption}
-                            </p>
-                        </div>
+                            {photo.caption && (
+                                <figcaption class="absolute bottom-4 left-0 w-full text-center text-neutral-700 text-xs font-medium tracking-wide">
+                                    {photo.caption}
+                                </figcaption>
+                            )}
+                        </figure>
                     </div>
                 ))
             }
