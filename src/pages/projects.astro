@@ -6,8 +6,16 @@ const projects = [
         name: "WordMMO",
         description:
             "An infinitely scaling multiplayer word game. Place tiles, form words, and compete on a shared board that never stops growing. More info to come!",
-        tech: ["React", "Golang"],
+        tech: ["React", "Golang", "PostgreSQL"],
         status: "In progress",
+    },
+    {
+        name: "SK.TN",
+        description:
+            "A minimal URL shortener. No JavaScript, anonymous, and 100% free. Supports custom paths, password protected links, vault-based link management, and a simple cURL API.",
+        tech: ["Cloudflare Workers", "TypeScript"],
+        status: "Live",
+        url: "https://sk.tn",
     },
 ];
 ---
@@ -35,8 +43,28 @@ const projects = [
                 projects.map((project) => (
                     <li class="p-6 rounded-lg border border-neutral-800">
                         <div class="flex items-center justify-between mb-2">
-                            <h2 class="text-lg font-medium">{project.name}</h2>
-                            <span class="text-xs text-neutral-500 border border-neutral-700 rounded-full px-2 py-0.5">
+                            <h2 class="text-lg font-medium">
+                                {project.url ? (
+                                    <a
+                                        href={project.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="hover:text-blue-400 transition-colors duration-200"
+                                    >
+                                        {project.name} ↗
+                                    </a>
+                                ) : (
+                                    project.name
+                                )}
+                            </h2>
+                            <span
+                                class:list={[
+                                    "text-xs rounded-full px-2 py-0.5 border",
+                                    project.status === "Live"
+                                        ? "text-green-400 border-green-700"
+                                        : "text-neutral-500 border-neutral-700",
+                                ]}
+                            >
                                 {project.status}
                             </span>
                         </div>
