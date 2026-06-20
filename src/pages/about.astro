@@ -1,0 +1,157 @@
+---
+import Base from "../layouts/Base.astro";
+
+const dob = new Date("2003-09-02");
+const now = new Date();
+const age =
+    now.getFullYear() -
+    dob.getFullYear() -
+    (now < new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
+
+const experience = [
+    {
+        role: "Software Engineer II",
+        company: "White Label Loyalty",
+        url: "https://whitelabel-loyalty.com",
+        period: "2022 — Present",
+        description:
+            "Building B2B loyalty solutions for enterprise clients. Working across the full stack to deliver scalable, white-label reward and engagement platforms.",
+        tech: ["TypeScript", "AI", "AWS", "Fullstack"],
+        current: true,
+    },
+    {
+        role: "Team Lead & Co-owner",
+        company: "CubedCraft",
+        url: "https://cubedcraft.com",
+        period: "Feb 2025 — Mar 2026",
+        description:
+            "Led and co-owned a Minecraft server community with a team of 6. Expanded the game offering and oversaw the server's acquisition in late 2025 for $3,100 USD.",
+        tech: ["Kotlin", "MySQL"],
+        current: false,
+    },
+    {
+        role: "Freelance Web Developer",
+        company: "Freelance",
+        period: "Jan 2020 — Dec 2022",
+        description:
+            "Designed and built websites for local businesses and non-profits.",
+        tech: ["React", "SSG", "SCSS"],
+        current: false,
+    },
+];
+
+const education = [
+    {
+        degree: "Information and Media Technology",
+        school: "NTI Gymnasiet Umeå",
+        period: "Aug 2019 — Jun 2022",
+    },
+    {
+        degree: "Enterprise Design Thinking Practitioner",
+        school: "IBM",
+        period: "Issued Aug 2023",
+    },
+];
+---
+
+<Base
+    title="About — Jacob Wennebro"
+    description="Jacob Wennebro — Software Engineer based outside Stockholm, Sweden. Experience at White Label Loyalty, personal projects, and more."
+>
+    <header class="fixed top-0 left-0 z-50 px-6 py-5">
+        <a
+            href="/"
+            class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
+        >
+            ← Back
+        </a>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-20 pt-20">
+        <h1 class="text-3xl font-semibold tracking-tight mt-8 mb-4">About</h1>
+
+        <div class="text-neutral-400 text-base leading-relaxed space-y-4 mb-16">
+            <p>
+                I'm Jacob, a {age} year old software engineer based near Stockholm,
+                Sweden. Since the age of 12 I've been building things online that
+                interest me.
+            </p>
+            <p>
+                Outside of work I spend time travelling, taking photos, and
+                recently trying to get into reading. This serves as my personal
+                space on the world wide web.
+            </p>
+        </div>
+
+        <h2 class="text-xl font-semibold tracking-tight mb-8">Experience</h2>
+
+        <ul class="space-y-8">
+            {
+                experience.map((job) => (
+                    <li class="p-6 rounded-lg border border-neutral-800">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-medium">{job.role}</h3>
+                            <span
+                                class:list={[
+                                    "text-xs rounded-full px-2 py-0.5 border",
+                                    job.current
+                                        ? "text-green-400 border-green-700"
+                                        : "text-neutral-500 border-neutral-700",
+                                ]}
+                            >
+                                {job.current ? "Current" : "Past"}
+                            </span>
+                        </div>
+                        <p class="text-sm text-neutral-500 mb-3">
+                            {job.url ? (
+                                <a
+                                    href={job.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="hover:text-neutral-300 transition-colors duration-200"
+                                >
+                                    {job.company} ↗
+                                </a>
+                            ) : (
+                                <span>{job.company}</span>
+                            )}
+                            <span class="mx-2">·</span>
+                            {job.period}
+                        </p>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-3">
+                            {job.description}
+                        </p>
+                        <div class="flex gap-2 flex-wrap">
+                            {job.tech.map((t) => (
+                                <span class="text-[11px] text-neutral-500 bg-neutral-800/50 rounded px-2 py-0.5">
+                                    {t}
+                                </span>
+                            ))}
+                        </div>
+                    </li>
+                ))
+            }
+        </ul>
+
+        <h2 class="text-xl font-semibold tracking-tight mt-16 mb-8">
+            Education & Certifications
+        </h2>
+
+        <ul class="space-y-8">
+            {
+                education.map((edu) => (
+                    <li class="p-6 rounded-lg border border-neutral-800">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-medium">{edu.degree}</h3>
+                        </div>
+                        <p class="text-sm text-neutral-500">
+                            {edu.school}
+                            <span class="mx-2">·</span>
+                            {edu.period}
+                        </p>
+                    </li>
+                ))
+            }
+        </ul>
+    </main>
+</Base>

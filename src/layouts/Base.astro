@@ -25,6 +25,33 @@ const siteName = "Jacob Wennebro";
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalURL.href} />
 
+        <!-- JSON-LD -->
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Person",
+                name: "Jacob Wennebro",
+                url: "https://wennebro.com",
+                jobTitle: "Software Engineer II",
+                worksFor: {
+                    "@type": "Organization",
+                    name: "White Label Loyalty",
+                    url: "https://whitelabel-loyalty.com",
+                },
+                address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "Stockholm",
+                    addressCountry: "SE",
+                },
+                sameAs: [
+                    "https://github.com/jacobwennebro",
+                    "https://linkedin.com/in/jacobwennebro",
+                    "https://instagram.com/jacobwennebro",
+                ],
+            })}
+        />
+
         <!-- Open Graph -->
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalURL.href} />
