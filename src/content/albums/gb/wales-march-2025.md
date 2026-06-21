@@ -12,4 +12,3 @@ images:
   - src: ../../../assets/uploads/wales-05.jpg
   - src: ../../../assets/uploads/wales-06.jpg
 ---
-Wales
