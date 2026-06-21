@@ -13,4 +13,3 @@ images:
   - src: ../../../assets/uploads/bojnice-07.jpg
   - src: ../../../assets/uploads/bojnice-08.jpg
 ---
-test!
