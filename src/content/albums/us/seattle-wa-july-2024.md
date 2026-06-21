@@ -15,4 +15,3 @@ images:
     caption: Burke Museum
   - src: ../../../assets/uploads/seattle-06.jpg
 ---
-I liked Seattle
