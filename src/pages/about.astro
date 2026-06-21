@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { ArrowUpRight } from "lucide-astro";
 
 const dob = new Date("2003-09-02");
 const now = new Date();
@@ -13,7 +14,7 @@ const experience = [
         role: "Software Engineer II",
         company: "White Label Loyalty",
         url: "https://whitelabel-loyalty.com",
-        period: "2022 — Present",
+        period: "Dec 2022 — Present",
         description:
             "Building B2B loyalty solutions for enterprise clients. Working across the full stack to deliver scalable, white-label reward and engagement platforms.",
         tech: ["TypeScript", "AI", "AWS", "Fullstack"],
@@ -108,9 +109,9 @@ const education = [
                                     href={job.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="hover:text-neutral-300 transition-colors duration-200"
+                                    class="hover:text-neutral-300 transition-colors duration-200 inline-flex items-center gap-1"
                                 >
-                                    {job.company} ↗
+                                    {job.company} <ArrowUpRight size={14} />
                                 </a>
                             ) : (
                                 <span>{job.company}</span>

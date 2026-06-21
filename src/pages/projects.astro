@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { ArrowUpRight } from "lucide-astro";
 
 const projects = [
     {
@@ -52,9 +53,10 @@ const projects = [
                                         href={project.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="hover:text-blue-400 transition-colors duration-200"
+                                        class="hover:text-blue-400 transition-colors duration-200 inline-flex items-center gap-1"
                                     >
-                                        {project.name} ↗
+                                        {project.name}{" "}
+                                        <ArrowUpRight size={14} />
                                     </a>
                                 ) : (
                                     project.name
