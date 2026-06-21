@@ -15,4 +15,3 @@ images:
   - src: ../../../assets/uploads/skopje-10.jpg
   - src: ../../../assets/uploads/skopje-11.jpg
 ---
-North Macedonia
