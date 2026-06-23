@@ -26,7 +26,14 @@ const avatarDataUrl = `data:${contentType};base64,${base64}`;
 	title="Jacob Wennebro"
 	description="Software engineer. Building things, taking photos, and writing about it."
 >
-	<div class="grow flex items-center justify-center h-dvh overflow-hidden">
+	<style slot="head">
+		html,
+		body {
+			overflow: hidden;
+			height: 100%;
+		}
+	</style>
+	<div class="grow flex items-center justify-center">
 		<main
 			class="max-w-md w-full px-6 py-16 flex flex-col items-center text-center gap-8"
 		>
