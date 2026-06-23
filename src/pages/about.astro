@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { ArrowUpRight } from "lucide-astro";
+import { toWords } from "../lib/numberWords";
 
 const dob = new Date("2003-09-02");
 const now = new Date();
@@ -8,6 +9,7 @@ const age =
     now.getFullYear() -
     dob.getFullYear() -
     (now < new Date(now.getFullYear(), dob.getMonth(), dob.getDate()) ? 1 : 0);
+const ageText = toWords(age);
 
 const experience = [
     {
@@ -73,8 +75,8 @@ const education = [
 
         <div class="text-neutral-400 text-base leading-relaxed space-y-4 mb-16">
             <p>
-                I'm Jacob, a {age} year old software engineer based near Stockholm,
-                Sweden. Since the age of 12 I've been building things online that
+                I'm Jacob, a {ageText} year old software engineer based near Stockholm,
+                Sweden. Since the age of twelve I've been building things online that
                 interest me.
             </p>
             <p>
