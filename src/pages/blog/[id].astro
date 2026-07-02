@@ -21,6 +21,34 @@ const readingTime = Math.max(1, Math.round(words / 230));
     title={`${post.data.title} / Jacob Wennebro`}
     description={post.data.description}
 >
+    <Fragment slot="head">
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                headline: post.data.title,
+                description: post.data.description || "",
+                datePublished: new Date(post.data.date).toISOString(),
+                author: {
+                    "@type": "Person",
+                    name: "Jacob Wennebro",
+                    url: "https://www.wennebro.com",
+                },
+                publisher: {
+                    "@type": "Person",
+                    name: "Jacob Wennebro",
+                },
+                mainEntityOfPage: {
+                    "@type": "WebPage",
+                    "@id": `https://www.wennebro.com/blog/${post.id}`,
+                },
+                wordCount: words,
+                timeRequired: `PT${readingTime}M`,
+            })}
+        />
+    </Fragment>
+
     <header class="fixed top-0 left-0 z-50 px-6 py-5">
         <a
             href="/blog"
@@ -37,13 +65,18 @@ const readingTime = Math.max(1, Math.round(words / 230));
                     {post.data.title}
                 </h1>
                 <p class="text-neutral-600 text-sm mt-3">
-                    {
-                        new Date(post.data.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        })
-                    }
+                    <time datetime={new Date(post.data.date).toISOString()}>
+                        {
+                            new Date(post.data.date).toLocaleDateString(
+                                "en-US",
+                                {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                },
+                            )
+                        }
+                    </time>
                     / {readingTime} min read.
                 </p>
             </header>

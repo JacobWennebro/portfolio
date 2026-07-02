@@ -13,6 +13,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const defaultDescription = "Jacob Wennebro — software engineer.";
 const metaDescription = description || defaultDescription;
 const siteName = "Jacob Wennebro";
+const ogImageURL = ogImage || new URL("/og-default.png", Astro.site).href;
 ---
 
 <html lang="en">
@@ -59,16 +60,24 @@ const siteName = "Jacob Wennebro";
         <meta property="og:title" content={title} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:site_name" content={siteName} />
-        {ogImage && <meta property="og:image" content={ogImage} />}
+        <meta property="og:image" content={ogImageURL} />
 
         <!-- Twitter Card -->
-        <meta
-            name="twitter:card"
-            content={ogImage ? "summary_large_image" : "summary"}
-        />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={metaDescription} />
-        {ogImage && <meta name="twitter:image" content={ogImage} />}
+        <meta name="twitter:image" content={ogImageURL} />
+
+        <!-- Author -->
+        <meta name="author" content="Jacob Wennebro" />
+
+        <!-- RSS -->
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Jacob Wennebro's Blog"
+            href="/rss.xml"
+        />
 
         <slot name="head" />
     </head>

@@ -40,14 +40,19 @@ const posts = (await getCollection("blog")).sort(
                                 </p>
                             )}
                             <p class="text-neutral-600 text-xs mt-2">
-                                {new Date(post.data.date).toLocaleDateString(
-                                    "en-US",
-                                    {
+                                <time
+                                    datetime={new Date(
+                                        post.data.date,
+                                    ).toISOString()}
+                                >
+                                    {new Date(
+                                        post.data.date,
+                                    ).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
-                                    },
-                                )}
+                                    })}
+                                </time>
                             </p>
                         </a>
                     </li>
