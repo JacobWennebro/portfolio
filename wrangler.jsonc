@@ -4,6 +4,7 @@
 	"compatibility_flags": [
 		"global_fetch_strictly_public"
 	],
+	"preview_urls": false,
 	"name": "portfolio",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
