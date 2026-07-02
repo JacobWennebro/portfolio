@@ -84,6 +84,12 @@ const ogImageURL = ogImage || new URL("/og-default.png", Astro.site).href;
     <body
         class="flex flex-col bg-neutral-950 text-neutral-100 min-h-dvh font-sans antialiased"
     >
+        <a
+            href="#main-content"
+            class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-neutral-800 focus:text-neutral-100 focus:px-4 focus:py-2 focus:rounded focus:text-sm"
+        >
+            Skip to content
+        </a>
         <slot />
 
         <div
@@ -116,21 +122,31 @@ const ogImageURL = ogImage || new URL("/og-default.png", Astro.site).href;
                     }
                 });
 
+            const prefersReducedMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches;
+
             const lenis = new Lenis({
                 duration: 1.2,
                 easing: (t: number) =>
                     Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smoothWheel: true,
+                smoothWheel: !prefersReducedMotion,
             });
 
-            (window as any).__lenis = lenis;
+            if (prefersReducedMotion) {
+                lenis.destroy();
+            }
+
+            (window as any).__lenis = prefersReducedMotion ? null : lenis;
 
             function raf(time: number) {
                 lenis.raf(time);
                 requestAnimationFrame(raf);
             }
 
-            requestAnimationFrame(raf);
+            if (!prefersReducedMotion) {
+                requestAnimationFrame(raf);
+            }
 
             const text = `
                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

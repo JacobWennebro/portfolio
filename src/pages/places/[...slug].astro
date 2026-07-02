@@ -34,6 +34,7 @@ const scattered = album.data.images.map((photo) => ({
     <header class="fixed top-0 left-0 z-50 px-6 py-5">
         <a
             href="/places"
+            aria-label="Back to places"
             class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
         >
             ← Places
@@ -59,7 +60,7 @@ const scattered = album.data.images.map((photo) => ({
     >
     </div>
 
-    <main class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto">
+    <main id="main-content" class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto">
         <div class="relative">
             {
                 scattered.map((photo, i) => (
