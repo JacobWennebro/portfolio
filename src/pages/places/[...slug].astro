@@ -5,6 +5,7 @@ import { getCollection, render } from "astro:content";
 import { Image, getImage } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import exifJson from "../../data/exif.json";
+import { isoToFlagEmoji } from "../../lib/flags.ts";
 
 export const getStaticPaths = (async () => {
     const albums = await getCollection("albums");
@@ -23,7 +24,8 @@ const firstImageSrc = album.data.images[0]?.src;
 const resolvedImage = firstImageSrc ? await getImage({ src: firstImageSrc, width: 1200 }) : null;
 const ogImage = resolvedImage?.src;
 
-const description = `Photos from ${album.data.name}, ${album.data.country} — ${album.data.date}`;
+const flag = isoToFlagEmoji(album.data.country);
+const description = `Photos from ${album.data.name} ${flag} (${album.data.date})`;
 
 function rand(min: number, max: number) {
     return Math.random() * (max - min) + min;
@@ -47,7 +49,7 @@ const scattered = album.data.images.map((photo, i) => ({
         <div class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent">
             <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
             <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
-                {album.data.country} / <time datetime={album.data.date}">{album.data.date}</time>
+                {album.data.country} / <time datetime={album.data.date}>{album.data.date}</time>
             </p>
         </div>
     </header>
