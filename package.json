@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev & npx decap-server",
-    "build": "tsx scripts/extract-exif.ts && astro build",
+    "build": "bunx tsx scripts/extract-exif.ts && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types"
