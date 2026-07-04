@@ -6,6 +6,7 @@ import { Image, getImage } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import exifJson from "../../data/exif.json";
 import { isoToFlagEmoji } from "../../lib/flags.ts";
+import countries from "../../data/countries.json";
 
 export const getStaticPaths = (async () => {
     const albums = await getCollection("albums");
@@ -24,8 +25,9 @@ const firstImageSrc = album.data.images[0]?.src;
 const resolvedImage = firstImageSrc ? await getImage({ src: firstImageSrc, width: 1200 }) : null;
 const ogImage = resolvedImage?.src;
 
+const countryName = countries.find((c) => c.code === album.data.country)?.name ?? album.data.country;
 const flag = isoToFlagEmoji(album.data.country);
-const description = `Photos from ${album.data.name} ${flag} (${album.data.date})`;
+const description = `Photos from ${countryName} ${flag}`;
 
 function rand(min: number, max: number) {
     return Math.random() * (max - min) + min;
