@@ -37,28 +37,16 @@ const scattered = album.data.images.map((photo, i) => ({
 <Base title={`${album.data.name} / Jacob Wennebro`}>
     <BackButton href="/places" />
 
-    <!-- Fixed centered title -->
-    <header
-        class="fixed top-0 left-0 w-full z-40 flex flex-col items-center justify-center pt-12 pb-6 pointer-events-none"
-    >
-        <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
-        <p
-            class="text-neutral-400 text-sm mt-2 text-shadow-lg"
-        >
-            {album.data.country} / <time datetime={album.data.date}
-                >{album.data.date}</time
-            >
-        </p>
+    <header class="sticky left-0 w-full z-40 pointer-events-none" style="top: -72px;">
+        <div class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent">
+            <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
+            <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
+                {album.data.country} / <time datetime={album.data.date}">{album.data.date}</time>
+            </p>
+        </div>
     </header>
 
-    <!-- Gradient mask -->
-    <div
-        class="fixed top-0 left-0 w-full h-32 z-30 pointer-events-none"
-        style="background: linear-gradient(to bottom, rgb(10 10 10) 60%, transparent 100%);"
-    >
-    </div>
-
-    <main id="main-content" class="relative pt-48 pb-24 px-4 max-w-5xl mx-auto">
+    <main id="main-content" class="relative pb-24 mt-12 px-4 max-w-5xl mx-auto">
         <div class="relative">
             {
                 scattered.map((photo, i) => (
@@ -125,10 +113,7 @@ const scattered = album.data.images.map((photo, i) => ({
     <script>
         let keyboardActive = false;
 
-        function updateOpacities() {}
-
-        window.addEventListener("scroll", updateOpacities, { passive: true });
-        updateOpacities();
+        window.addEventListener("scroll", () => {}, { passive: true });
 
         const polaroids = document.querySelectorAll(
             ".polaroid",
@@ -178,7 +163,6 @@ const scattered = album.data.images.map((photo, i) => ({
             });
             keyHints.classList.add("opacity-0");
             keyHints.classList.remove("opacity-100");
-            updateOpacities();
         }
 
         function findClosestToCenter(): number {
@@ -257,10 +241,6 @@ const scattered = album.data.images.map((photo, i) => ({
     <style>
         .polaroid.highlighted .info-panel {
             opacity: 1;
-        }
-
-        .polaroid:focus {
-            outline: 2px solid rgba(255, 255, 255, 0.6);
         }
 
         @keyframes key-press {
