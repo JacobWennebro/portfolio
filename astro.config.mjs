@@ -12,6 +12,10 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [sitemap()],
 
+  redirects: {
+    '/places/gb/wales-march-2025': '/places/gb-wls/anglesey-march-2025',
+  },
+
   markdown: {
     rehypePlugins: [
       [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],

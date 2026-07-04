@@ -912,6 +912,22 @@
         "code": "AE"
     },
     {
+        "name": "England",
+        "code": "GB-ENG"
+    },
+    {
+        "name": "Northern Ireland",
+        "code": "GB-NIR"
+    },
+    {
+        "name": "Scotland",
+        "code": "GB-SCT"
+    },
+    {
+        "name": "Wales",
+        "code": "GB-WLS"
+    },
+    {
         "name": "United Kingdom",
         "code": "GB"
     },

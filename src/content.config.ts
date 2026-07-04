@@ -24,7 +24,7 @@ const albums = defineCollection({
                     caption: z.string().optional(),
                     alt: z.string().default("TODO"),
                 })
-            ),
+            ).optional().default([]),
         }),
 });
 

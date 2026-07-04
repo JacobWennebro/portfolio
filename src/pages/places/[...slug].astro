@@ -51,7 +51,7 @@ const scattered = album.data.images.map((photo, i) => ({
         <div class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent">
             <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
             <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
-                {album.data.country} / <time datetime={album.data.date}>{album.data.date}</time>
+                {countryName} / <time datetime={album.data.date}>{album.data.date}</time>
             </p>
         </div>
     </header>

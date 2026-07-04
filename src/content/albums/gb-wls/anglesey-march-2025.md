@@ -1,11 +1,11 @@
 ---
-name: Wales
-country: GB
+name: Anglesey
+country: GB-WLS
 date: March 2025
 images:
   - src: ../../../assets/uploads/wales-01.jpg
-    caption: South Stack Lighthouse, Anglesey
-    alt: South Stack Lighthouse, Anglesey
+    caption: South Stack Lighthouse
+    alt: South Stack Lighthouse
   - src: ../../../assets/uploads/wales-02.jpg
     alt: Storefront in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch
   - src: ../../../assets/uploads/wales-03.jpg
