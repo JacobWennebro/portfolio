@@ -1,7 +1,8 @@
 # build output
 dist/
-# generated types
+# generated types / artifacts
 .astro/
+src/data/exif.json
 
 # dependencies
 node_modules/

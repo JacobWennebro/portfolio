@@ -4,6 +4,7 @@ import BackButton from "../../components/BackButton.astro";
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import exifJson from "../../data/exif.json";
 
 export const getStaticPaths = (async () => {
     const albums = await getCollection("albums");
@@ -22,8 +23,11 @@ function rand(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
 
-const scattered = album.data.images.map((photo) => ({
+const albumExif = (exifJson as any)[album.id] || [];
+
+const scattered = album.data.images.map((photo, i) => ({
     ...photo,
+    exif: albumExif[i] || null,
     rotate: rand(-5, 5),
     offsetX: rand(-30, 30),
     marginTop: rand(-60, -10),
@@ -81,6 +85,16 @@ const scattered = album.data.images.map((photo) => ({
                                 </figcaption>
                             )}
                         </figure>
+                        <div class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block" style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);">
+                            {photo.exif?.coords && <p>{photo.exif.coords}</p>}
+                            {photo.exif?.camera && (
+                                <p>
+                                    Shot on {photo.exif.camera.device}
+                                    <br />
+                                    {photo.exif.camera.settings}
+                                </p>
+                            )}
+                        </div>
                     </div>
                 ))
             }
@@ -94,6 +108,20 @@ const scattered = album.data.images.map((photo) => ({
         </article>
     </main>
 
+    <div
+        id="key-hints"
+        class="fixed bottom-6 left-6 z-50 hidden md:flex flex-col gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none"
+    >
+        <div class="flex gap-1.5 justify-center">
+            <div data-key="up" class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500">↑</div>
+        </div>
+        <div class="flex gap-1.5 justify-center">
+            <div data-key="left" class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700">←</div>
+            <div data-key="down" class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500">↓</div>
+            <div data-key="right" class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700">→</div>
+        </div>
+    </div>
+
     <script>
         let keyboardActive = false;
 
@@ -105,6 +133,7 @@ const scattered = album.data.images.map((photo) => ({
         const polaroids = document.querySelectorAll(
             ".polaroid",
         ) as NodeListOf<HTMLElement>;
+        const keyHints = document.getElementById("key-hints")!;
         let activeIndex = -1;
 
         function highlightPolaroid(index: number) {
@@ -116,11 +145,15 @@ const scattered = album.data.images.map((photo) => ({
                 if (i === activeIndex) {
                     el.style.filter = "";
                     el.style.zIndex = String(total + 1);
+                    el.classList.add("highlighted");
                 } else {
                     el.style.filter = "brightness(0.3)";
                     el.style.zIndex = String(total - i);
+                    el.classList.remove("highlighted");
                 }
             });
+            keyHints.classList.remove("opacity-0");
+            keyHints.classList.add("opacity-100");
 
             const el = polaroids[activeIndex];
             el.focus();
@@ -141,7 +174,10 @@ const scattered = album.data.images.map((photo) => ({
             polaroids.forEach((el, i) => {
                 el.style.filter = "";
                 el.style.zIndex = String(total - i);
+                el.classList.remove("highlighted");
             });
+            keyHints.classList.add("opacity-0");
+            keyHints.classList.remove("opacity-100");
             updateOpacities();
         }
 
@@ -161,6 +197,14 @@ const scattered = album.data.images.map((photo) => ({
             return closest;
         }
 
+        function animateKey(name: string) {
+            const key = document.querySelector(`[data-key="${name}"]`) as HTMLElement | null;
+            if (!key) return;
+            key.classList.remove("key-pressed");
+            void key.offsetWidth; // force reflow
+            key.classList.add("key-pressed");
+        }
+
         polaroids.forEach((el, i) => {
             el.addEventListener("click", (e) => {
                 if (activeIndex === i) {
@@ -173,6 +217,7 @@ const scattered = album.data.images.map((photo) => ({
             el.addEventListener("keydown", (e) => {
                 if (e.key === "ArrowDown") {
                     e.preventDefault();
+                    animateKey("down");
                     const next =
                         activeIndex < polaroids.length - 1
                             ? activeIndex + 1
@@ -184,6 +229,7 @@ const scattered = album.data.images.map((photo) => ({
                     }
                 } else if (e.key === "ArrowUp") {
                     e.preventDefault();
+                    animateKey("up");
                     if (activeIndex <= 0) {
                         clearHighlight();
                     } else {
@@ -207,4 +253,24 @@ const scattered = album.data.images.map((photo) => ({
             });
         });
     </script>
+
+    <style>
+        .polaroid.highlighted .info-panel {
+            opacity: 1;
+        }
+
+        .polaroid:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes key-press {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(2px); background: rgba(255, 255, 255, 0.08); }
+            100% { transform: translateY(0); }
+        }
+
+        .key-pressed {
+            animation: key-press 0.15s ease-out;
+        }
+    </style>
 </Base>
