@@ -54,7 +54,7 @@ const cards = stack.map((src, i) => ({
                     alt=""
                     width={448}
                     quality={70}
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover pointer-events-none"
                     loading={card.isFront ? "eager" : "lazy"}
                     fetchpriority={card.isFront ? "high" : "low"}
                     data-fade

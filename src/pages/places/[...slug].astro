@@ -162,6 +162,14 @@ const scattered = album.data.images.map((photo) => ({
         }
 
         polaroids.forEach((el, i) => {
+            el.addEventListener("click", (e) => {
+                if (activeIndex === i) {
+                    clearHighlight();
+                } else {
+                    highlightPolaroid(i);
+                }
+            });
+
             el.addEventListener("keydown", (e) => {
                 if (e.key === "ArrowDown") {
                     e.preventDefault();
@@ -191,12 +199,12 @@ const scattered = album.data.images.map((photo) => ({
                     clearHighlight();
                 }
             });
-        });
 
-        document.addEventListener("mousemove", () => {
-            if (activeIndex !== -1) {
-                clearHighlight();
-            }
+            el.addEventListener("mouseleave", () => {
+                if (activeIndex === i) {
+                    clearHighlight();
+                }
+            });
         });
     </script>
 </Base>
