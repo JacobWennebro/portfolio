@@ -5,19 +5,19 @@ date: June 2026
 images:
   - src: ../../../assets/uploads/bojnice-01.jpg
     caption: Bojnice Castle, front
-    alt: TODO
+    alt: Bojnice Castle from the front
   - src: ../../../assets/uploads/bojnice-02.jpg
-    alt: TODO
+    alt: Castle gardens with a pond and a small tower
   - src: ../../../assets/uploads/bojnice-03.jpg
-    alt: TODO
+    alt: Wooden statue of a crowned king holding an orb
   - src: ../../../assets/uploads/bojnice-04.jpg
-    alt: TODO
+    alt: Ornate castle interior hall with paintings and period furniture
   - src: ../../../assets/uploads/bojnice-05.jpg
-    alt: TODO
+    alt: Medieval knight armor suit on display
   - src: ../../../assets/uploads/bojnice-06.jpg
-    alt: TODO
+    alt: Castle chapel with an ornate painted ceiling and golden altar
   - src: ../../../assets/uploads/bojnice-07.jpg
-    alt: TODO
+    alt: Wooden religious statue in a stone archway niche
   - src: ../../../assets/uploads/bojnice-08.jpg
-    alt: TODO
+    alt: Carved wooden triptych depicting scenes of Jesus
 ---
