@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import BackButton from "../../components/BackButton.astro";
 import { getCollection, render } from "astro:content";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import exifJson from "../../data/exif.json";
 
@@ -19,6 +19,12 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { album } = Astro.props as Props;
 const { Content } = await render(album);
 
+const firstImageSrc = album.data.images[0]?.src;
+const resolvedImage = firstImageSrc ? await getImage({ src: firstImageSrc, width: 1200 }) : null;
+const ogImage = resolvedImage?.src;
+
+const description = `Photos from ${album.data.name}, ${album.data.country} — ${album.data.date}`;
+
 function rand(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }
@@ -34,7 +40,7 @@ const scattered = album.data.images.map((photo, i) => ({
 }));
 ---
 
-<Base title={`${album.data.name} / Jacob Wennebro`}>
+<Base title={`${album.data.name} / Jacob Wennebro`} description={description} ogImage={ogImage}>
     <BackButton href="/places" />
 
     <header class="sticky left-0 w-full z-40 pointer-events-none" style="top: -72px;">
