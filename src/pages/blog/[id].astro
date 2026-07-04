@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import BackButton from "../../components/BackButton.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -49,15 +50,7 @@ const readingTime = Math.max(1, Math.round(words / 230));
         />
     </Fragment>
 
-    <header class="fixed top-0 left-0 z-50 px-6 py-5">
-        <a
-            href="/blog"
-            aria-label="Back to blog"
-            class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
-        >
-            ← Back
-        </a>
-    </header>
+    <BackButton href="/blog" />
 
     <main id="main-content" class="grow max-w-3xl mx-auto px-6 py-20 pt-20">
         <article class="mt-8">

@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import BackButton from "../../components/BackButton.astro";
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
@@ -24,22 +25,13 @@ function rand(min: number, max: number) {
 const scattered = album.data.images.map((photo) => ({
     ...photo,
     rotate: rand(-5, 5),
-    offsetX: rand(0, 45),
+    offsetX: rand(-30, 30),
     marginTop: rand(-60, -10),
 }));
 ---
 
 <Base title={`${album.data.name} / Jacob Wennebro`}>
-    <!-- Fixed header -->
-    <header class="fixed top-0 left-0 z-50 px-6 py-5">
-        <a
-            href="/places"
-            aria-label="Back to places"
-            class="text-neutral-500 hover:text-neutral-300 text-sm transition-colors duration-200"
-        >
-            ← Places
-        </a>
-    </header>
+    <BackButton href="/places" />
 
     <!-- Fixed centered title -->
     <div
@@ -65,8 +57,8 @@ const scattered = album.data.images.map((photo) => ({
             {
                 scattered.map((photo, i) => (
                     <div
-                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] md:mx-0"
-                        style={`transform: rotate(${photo.rotate.toFixed(1)}deg); margin-left: ${photo.offsetX.toFixed(0)}%; margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
+                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)]"
+                        style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
                     >
                         <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
                             <Image
