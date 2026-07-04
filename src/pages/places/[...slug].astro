@@ -59,11 +59,14 @@ const scattered = album.data.images.map((photo) => ({
                     <div
                         class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)]"
                         style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
+                        tabindex="0"
+                        role="button"
+                        aria-label={`${photo.caption ?? photo.alt ?? `${album.data.name} photo ${i + 1}`}. Press arrow down to go to next, arrow up for previous, escape to clear.`}
                     >
                         <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
                             <Image
                                 src={photo.src}
-                                alt={photo.caption ?? ""}
+                                alt={photo.alt}
                                 width={840}
                                 quality={80}
                                 class="w-full aspect-4/3 object-cover"
@@ -118,6 +121,7 @@ const scattered = album.data.images.map((photo) => ({
             });
 
             const el = polaroids[activeIndex];
+            el.focus();
             const rect = el.getBoundingClientRect();
             const elCenter = rect.top + rect.height / 2;
             const viewCenter = window.innerHeight / 2;
@@ -155,30 +159,36 @@ const scattered = album.data.images.map((photo) => ({
             return closest;
         }
 
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowDown") {
-                e.preventDefault();
-                if (activeIndex === -1) {
-                    highlightPolaroid(findClosestToCenter());
-                } else {
+        polaroids.forEach((el, i) => {
+            el.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
                     const next =
                         activeIndex < polaroids.length - 1
                             ? activeIndex + 1
                             : activeIndex;
-                    highlightPolaroid(next);
-                }
-            } else if (e.key === "ArrowUp") {
-                e.preventDefault();
-                if (activeIndex === -1) {
-                    highlightPolaroid(findClosestToCenter());
-                } else if (activeIndex <= 0) {
+                    if (activeIndex === -1) {
+                        highlightPolaroid(findClosestToCenter());
+                    } else {
+                        highlightPolaroid(next);
+                    }
+                } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    if (activeIndex <= 0) {
+                        clearHighlight();
+                    } else {
+                        highlightPolaroid(activeIndex - 1);
+                    }
+                } else if (e.key === "Escape") {
                     clearHighlight();
-                } else {
-                    highlightPolaroid(activeIndex - 1);
                 }
-            } else if (e.key === "Escape") {
-                clearHighlight();
-            }
+            });
+
+            el.addEventListener("blur", () => {
+                if (activeIndex === i) {
+                    clearHighlight();
+                }
+            });
         });
 
         document.addEventListener("mousemove", () => {

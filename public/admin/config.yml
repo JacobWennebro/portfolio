@@ -41,4 +41,5 @@ collections:
         fields:
           - { label: Photo, name: src, widget: image }
           - { label: Caption, name: caption, widget: string, required: false }
+          - { label: Alt text, name: alt, widget: string, required: true, hint: "Describe what's in the photo for screen readers" }
       - { label: Body, name: body, widget: markdown, required: false }
