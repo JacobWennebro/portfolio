@@ -248,6 +248,30 @@ const scattered = album.data.images.map((photo, i) => ({
         });
     </script>
 
+    <script define:vars={{ flag }}>
+        (async () => {
+            const canvas = new OffscreenCanvas(64, 64);
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return;
+            ctx.clearRect(0, 0, 64, 64);
+            ctx.font = '64px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(flag, 32, 34);
+            const blob = await canvas.convertToBlob({ type: "image/png" });
+            const dataUrl = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(blob);
+            });
+            const link = document.querySelector('link[rel="icon"]');
+            if (link) {
+                link.href = dataUrl;
+                link.removeAttribute("type");
+            }
+        })();
+    </script>
+
     <style>
         .polaroid.highlighted .info-panel {
             opacity: 1;
