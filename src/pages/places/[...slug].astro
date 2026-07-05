@@ -131,7 +131,8 @@ const scattered = album.data.images.map((photo, i) => ({
                                 width={840}
                                 quality={80}
                                 class="w-full aspect-square object-cover pointer-events-none"
-                                loading="lazy"
+                                loading={i < 3 ? "eager" : "lazy"}
+                                fetchpriority={i < 3 ? "high" : "low"}
                                 data-fade
                             />
                             {photo.caption && (
