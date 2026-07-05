@@ -22,7 +22,7 @@ const albums = defineCollection({
                 z.object({
                     src: image(),
                     caption: z.string().optional(),
-                    alt: z.string().default("TODO"),
+                    alt: z.string(),
                 })
             ).optional().default([]),
         }),

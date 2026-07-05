@@ -21,13 +21,55 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { album } = Astro.props as Props;
 const { Content } = await render(album);
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
 const firstImageSrc = album.data.images[0]?.src;
-const resolvedImage = firstImageSrc ? await getImage({ src: firstImageSrc, width: 1200 }) : null;
+const resolvedImage = firstImageSrc
+    ? await getImage({ src: firstImageSrc, width: 1200 })
+    : null;
 const ogImage = resolvedImage?.src;
 
-const countryName = countries.find((c) => c.code === album.data.country)?.name ?? album.data.country;
+const countryName =
+    countries.find((c) => c.code === album.data.country)?.name ??
+    album.data.country;
 const flag = isoToFlagEmoji(album.data.country);
 const description = `Photos from ${countryName} ${flag}`;
+
+const dateObj = new Date(album.data.date);
+const displayDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+}).format(dateObj);
+
+const imageGallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: album.data.name,
+    description: `Photos from ${countryName}`,
+    url: canonicalURL.href,
+    dateCreated: album.data.date,
+    contentLocation: {
+        "@type": "Place",
+        name: countryName,
+        address: {
+            "@type": "PostalAddress",
+            addressCountry: album.data.country,
+        },
+    },
+    author: {
+        "@type": "Person",
+        name: "Jacob Wennebro",
+        url: "https://www.wennebro.com",
+    },
+    image: ogImage
+        ? {
+              "@type": "ImageObject",
+              url: ogImage.startsWith("http")
+                  ? ogImage
+                  : new URL(ogImage, Astro.site).href,
+          }
+        : undefined,
+};
 
 function rand(min: number, max: number) {
     return Math.random() * (max - min) + min;
@@ -44,20 +86,35 @@ const scattered = album.data.images.map((photo, i) => ({
 }));
 ---
 
-<Base title={`${album.data.name} / Jacob Wennebro`} description={description} ogImage={ogImage}>
+<Base
+    title={`${album.data.name} / Jacob Wennebro`}
+    description={description}
+    ogImage={ogImage}
+    publishedDate={album.data.date}
+    jsonLd={[imageGallerySchema]}
+>
     <BackButton href="/places" />
 
-    <header class="sticky left-0 w-full z-40 pointer-events-none" style="top: -72px;">
-        <div class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent">
-            <h1 class="text-4xl font-semibold tracking-tight">{album.data.name}</h1>
+    <header
+        class="sticky left-0 w-full z-40 pointer-events-none"
+        style="top: -72px;"
+    >
+        <div
+            class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent"
+        >
+            <h1 class="text-4xl font-semibold tracking-tight">
+                {album.data.name}
+            </h1>
             <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
-                {countryName} / <time datetime={album.data.date}>{album.data.date}</time>
+                {countryName} / <time datetime={album.data.date}
+                    >{displayDate}</time
+                >
             </p>
         </div>
     </header>
 
-    <main id="main-content" class="relative pb-24 mt-12 px-4 max-w-5xl mx-auto">
-        <div class="relative">
+    <main id="main-content" class="pb-24 mt-12 px-4 max-w-5xl mx-auto">
+        <article class="relative z-10">
             {
                 scattered.map((photo, i) => (
                     <div
@@ -83,7 +140,10 @@ const scattered = album.data.images.map((photo, i) => ({
                                 </figcaption>
                             )}
                         </figure>
-                        <div class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block" style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);">
+                        <div
+                            class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
+                            style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
+                        >
                             {photo.exif?.coords && <p>{photo.exif.coords}</p>}
                             {photo.exif?.camera && (
                                 <p>
@@ -96,13 +156,13 @@ const scattered = album.data.images.map((photo, i) => ({
                     </div>
                 ))
             }
-        </div>
 
-        <!-- Written content below photos -->
-        <article
-            class="max-w-xl mx-auto mt-32 prose prose-invert prose-neutral prose-sm"
-        >
-            <Content />
+            <!-- Written content below photos -->
+            <div
+                class="max-w-xl mx-auto mt-32 prose prose-invert prose-neutral prose-sm"
+            >
+                <Content />
+            </div>
         </article>
     </main>
 
@@ -111,12 +171,32 @@ const scattered = album.data.images.map((photo, i) => ({
         class="fixed bottom-6 left-6 z-50 hidden md:flex flex-col gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none"
     >
         <div class="flex gap-1.5 justify-center">
-            <div data-key="up" class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500">↑</div>
+            <div
+                data-key="up"
+                class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
+            >
+                ↑
+            </div>
         </div>
         <div class="flex gap-1.5 justify-center">
-            <div data-key="left" class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700">←</div>
-            <div data-key="down" class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500">↓</div>
-            <div data-key="right" class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700">→</div>
+            <div
+                data-key="left"
+                class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
+            >
+                ←
+            </div>
+            <div
+                data-key="down"
+                class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
+            >
+                ↓
+            </div>
+            <div
+                data-key="right"
+                class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
+            >
+                →
+            </div>
         </div>
     </div>
 
@@ -192,7 +272,9 @@ const scattered = album.data.images.map((photo, i) => ({
         }
 
         function animateKey(name: string) {
-            const key = document.querySelector(`[data-key="${name}"]`) as HTMLElement | null;
+            const key = document.querySelector(
+                `[data-key="${name}"]`,
+            ) as HTMLElement | null;
             if (!key) return;
             key.classList.remove("key-pressed");
             void key.offsetWidth; // force reflow
@@ -254,7 +336,8 @@ const scattered = album.data.images.map((photo, i) => ({
             const ctx = canvas.getContext("2d");
             if (!ctx) return;
             ctx.clearRect(0, 0, 64, 64);
-            ctx.font = '64px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
+            ctx.font =
+                '64px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(flag, 32, 34);
@@ -274,9 +357,16 @@ const scattered = album.data.images.map((photo, i) => ({
 
     <style>
         @keyframes key-press {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(2px); background: rgba(255, 255, 255, 0.08); }
-            100% { transform: translateY(0); }
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(2px);
+                background: rgba(255, 255, 255, 0.08);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
         .key-pressed {

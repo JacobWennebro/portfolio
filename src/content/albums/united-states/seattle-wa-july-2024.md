@@ -1,7 +1,7 @@
 ---
 name: Seattle, WA
 country: US
-date: July 2024
+date: "2024-07-01"
 images:
   - src: ../../../assets/uploads/seattle-01.jpg
     caption: Space Needle

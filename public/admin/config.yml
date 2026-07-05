@@ -28,14 +28,15 @@ collections:
     create: true
     nested: { depth: 2 }
     identifier_field: name
-    slug: "{{countrySlug}}/{{slug}}-{{date}}"
+    slug: "{{countrySlug}}/{{slug}}-{{dateSlug}}"
     media_folder: ../../../assets/uploads
     public_folder: ../../../assets/uploads
     fields:
       - { label: Name, name: name, widget: string }
       - { label: Country, name: country, widget: string, hint: "ISO 3166-1 alpha-2 code (e.g. SK, IT, JP)" }
       - { label: Country Slug, name: countrySlug, widget: hidden }
-      - { label: Date, name: date, widget: datetime, format: "MMMM YYYY", date_format: "MMMM YYYY", time_format: false }
+      - { label: Date Slug, name: dateSlug, widget: hidden }
+      - { label: Date, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - label: Images
         name: images
         widget: list

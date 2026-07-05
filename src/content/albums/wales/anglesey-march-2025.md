@@ -1,7 +1,7 @@
 ---
 name: Anglesey
 country: GB-WLS
-date: March 2025
+date: "2025-03-01"
 images:
   - src: ../../../assets/uploads/wales-01.jpg
     caption: South Stack Lighthouse

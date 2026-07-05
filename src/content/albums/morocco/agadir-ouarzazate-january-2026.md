@@ -1,7 +1,7 @@
 ---
 name: Agadir & Ouarzazate
 country: MA
-date: January 2026
+date: "2026-01-01"
 images:
   - src: ../../../assets/uploads/img_0581.jpg
     caption: Our riad's house cat Zafron

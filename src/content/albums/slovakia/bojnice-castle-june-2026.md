@@ -1,7 +1,7 @@
 ---
 name: Bojnice Castle
 country: SK
-date: June 2026
+date: "2026-06-01"
 images:
   - src: ../../../assets/uploads/bojnice-01.jpg
     caption: Bojnice Castle, front

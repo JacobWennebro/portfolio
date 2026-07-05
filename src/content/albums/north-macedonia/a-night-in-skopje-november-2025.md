@@ -1,7 +1,7 @@
 ---
 name: A Night in Skopje
 country: MK
-date: November 2025
+date: "2025-11-01"
 images:
   - src: ../../../assets/uploads/skopje-01.jpg
     alt: Porta Makedonija triumphal arch illuminated at night

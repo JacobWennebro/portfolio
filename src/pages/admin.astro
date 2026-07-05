@@ -34,13 +34,27 @@ for (const c of countries) {
                     if (collection !== "albums") return;
 
                     const data = entry.get("data");
+                    let newData = data;
+
                     const countryCode = data.get("country");
-                    if (!countryCode) return;
+                    if (countryCode) {
+                        const countrySlug = countrySlugMap[countryCode];
+                        if (countrySlug) {
+                            newData = newData.set("countrySlug", countrySlug);
+                        }
+                    }
 
-                    const countrySlug = countrySlugMap[countryCode];
-                    if (!countrySlug) return;
+                    const dateStr = data.get("date");
+                    if (dateStr) {
+                        const d = new Date(dateStr);
+                        const dateSlug = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' })
+                            .format(d)
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]+/g, "-");
+                        newData = newData.set("dateSlug", dateSlug);
+                    }
 
-                    return data.set("countrySlug", countrySlug);
+                    return newData;
                 },
             });
         </script>
