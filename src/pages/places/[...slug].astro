@@ -61,7 +61,7 @@ const scattered = album.data.images.map((photo, i) => ({
             {
                 scattered.map((photo, i) => (
                     <div
-                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)]"
+                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)] cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
                         style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
                         tabindex="0"
                         role="button"
@@ -273,10 +273,6 @@ const scattered = album.data.images.map((photo, i) => ({
     </script>
 
     <style>
-        .polaroid.highlighted .info-panel {
-            opacity: 1;
-        }
-
         @keyframes key-press {
             0% { transform: translateY(0); }
             50% { transform: translateY(2px); background: rgba(255, 255, 255, 0.08); }
