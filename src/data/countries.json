@@ -200,7 +200,7 @@
         "code": "CG"
     },
     {
-        "name": "Congo, The Democratic Republic of the",
+        "name": "Congo",
         "code": "CD"
     },
     {
@@ -380,7 +380,7 @@
         "code": "HM"
     },
     {
-        "name": "Holy See (Vatican City State)",
+        "name": "Vatican",
         "code": "VA"
     },
     {
@@ -668,7 +668,7 @@
         "code": "PW"
     },
     {
-        "name": "Palestinian Territory, Occupied",
+        "name": "Palestine",
         "code": "PS"
     },
     {
@@ -768,10 +768,6 @@
         "code": "SN"
     },
     {
-        "name": "Serbia and Montenegro",
-        "code": "CS"
-    },
-    {
         "name": "Seychelles",
         "code": "SC"
     },
@@ -824,7 +820,7 @@
         "code": "SR"
     },
     {
-        "name": "Svalbard and Jan Mayen",
+        "name": "Svalbard",
         "code": "SJ"
     },
     {

@@ -1,5 +1,14 @@
 ---
+import countries from "../data/countries.json";
 
+const countrySlugMap: Record<string, string> = {};
+for (const c of countries) {
+  const slug = c.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  countrySlugMap[c.code] = slug;
+}
 ---
 
 <html>
@@ -14,5 +23,26 @@
         <script
             is:inline
             src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+        <script
+            is:inline
+            define:vars={{ countrySlugMap }}
+        >
+            CMS.registerEventListener({
+                name: "preSave",
+                handler: ({ entry }) => {
+                    const collection = entry.get("collection");
+                    if (collection !== "albums") return;
+
+                    const data = entry.get("data");
+                    const countryCode = data.get("country");
+                    if (!countryCode) return;
+
+                    const countrySlug = countrySlugMap[countryCode];
+                    if (!countrySlug) return;
+
+                    return data.set("countrySlug", countrySlug);
+                },
+            });
+        </script>
     </body>
 </html>
