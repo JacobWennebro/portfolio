@@ -15,7 +15,8 @@ const { images, href, name, date, country } = Astro.props;
 
 const countryName = countries.find((c) => c.code === country)?.name ?? country;
 
-const shortDate = date.replace(/^(\w{3})\w+/, "$1");
+const dateObj = new Date(date);
+const shortDate = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(dateObj);
 
 const stack = images.slice(0, 3);
 

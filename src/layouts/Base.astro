@@ -7,11 +7,13 @@ interface Props {
     title: string;
     description?: string;
     ogImage?: string;
+    ogImageWidth?: number;
+    ogImageHeight?: number;
     publishedDate?: string;
     jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, ogImage, publishedDate, jsonLd } = Astro.props;
+const { title, description, ogImage, ogImageWidth, ogImageHeight, publishedDate, jsonLd } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const defaultDescription = "Jacob Wennebro — software engineer.";
 const metaDescription = description || defaultDescription;
@@ -23,6 +25,9 @@ const ogImageExplicit = !!ogImage;
 const ogImageURL = ogImageExplicit
   ? (ogImage.startsWith("http") ? ogImage : new URL(ogImage, Astro.site).href)
   : gravatarUrl;
+
+const finalOgImageWidth = ogImageWidth ?? (!ogImageExplicit ? 512 : undefined);
+const finalOgImageHeight = ogImageHeight ?? (!ogImageExplicit ? 512 : undefined);
 ---
 
 <html lang="en">
@@ -98,8 +103,12 @@ const ogImageURL = ogImageExplicit
         <meta property="og:description" content={metaDescription} />
         <meta property="og:site_name" content={siteName} />
         <meta property="og:image" content={ogImageURL} />
-        <meta property="og:image:width" content={ogImageExplicit ? "1200" : "512"} />
-        <meta property="og:image:height" content={ogImageExplicit ? "630" : "512"} />
+        {finalOgImageWidth && finalOgImageHeight && (
+            <>
+                <meta property="og:image:width" content={String(finalOgImageWidth)} />
+                <meta property="og:image:height" content={String(finalOgImageHeight)} />
+            </>
+        )}
         {publishedDate && (
             <meta property="article:published_time" content={publishedDate} />
         )}

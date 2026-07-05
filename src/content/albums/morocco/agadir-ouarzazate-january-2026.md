@@ -26,7 +26,7 @@ images:
     alt: Me and our taxi driver
     caption: Me and our taxi driver
   - src: ../../../assets/uploads/img_0473.jpg
-    caption: Watching Morocco vs Senegal (AFCON 2025)
+    caption: Morocco vs Senegal (AFCON 2025)
     alt: TV showing Morocco vs Senegal in AFCON 2025
   - src: ../../../assets/uploads/img_0436.jpg
     caption: Camel by Agadir Oufella
