@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Google",
+        "domain": "google."
+    },
+    {
+        "name": "Bing",
+        "domain": "bing.com"
+    },
+    {
+        "name": "Yahoo",
+        "domain": "yahoo.com"
+    },
+    {
+        "name": "DuckDuckGo",
+        "domain": "duckduckgo.com"
+    },
+    {
+        "name": "Brave Search",
+        "domain": "search.brave.com"
+    },
+    {
+        "name": "Ecosia",
+        "domain": "ecosia.org"
+    },
+    {
+        "name": "Startpage",
+        "domain": "startpage.com"
+    },
+    {
+        "name": "Qwant",
+        "domain": "qwant.com"
+    },
+    {
+        "name": "Ask",
+        "domain": "ask.com"
+    },
+    {
+        "name": "AOL Search",
+        "domain": "aol.com"
+    },
+    {
+        "name": "Baidu",
+        "domain": "baidu.com"
+    },
+    {
+        "name": "Yandex",
+        "domain": "yandex."
+    },
+    {
+        "name": "Naver",
+        "domain": "naver.com"
+    },
+    {
+        "name": "Sogou",
+        "domain": "sogou.com"
+    },
+    {
+        "name": "You.com",
+        "domain": "you.com"
+    },
+    {
+        "name": "Kagi",
+        "domain": "kagi.com"
+    },
+    {
+        "name": "Swisscows",
+        "domain": "swisscows.com"
+    },
+    {
+        "name": "Mojeek",
+        "domain": "mojeek.com"
+    },
+    {
+        "name": "WolframAlpha",
+        "domain": "wolframalpha.com"
+    },
+    {
+        "name": "Lycos",
+        "domain": "lycos.com"
+    },
+    {
+        "name": "Excite",
+        "domain": "excite.com"
+    },
+    {
+        "name": "Dogpile",
+        "domain": "dogpile.com"
+    },
+    {
+        "name": "MetaGer",
+        "domain": "metager.org"
+    },
+    {
+        "name": "SearX",
+        "domain": "searx."
+    }
+]

@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import BackButton from "../../components/BackButton.astro";
 import { getCollection, render } from "astro:content";
+import WelcomePage from "../../components/WelcomePopup.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("blog");
@@ -80,4 +81,5 @@ const readingTime = Math.max(1, Math.round(words / 230));
             </div>
         </article>
     </main>
+    <WelcomePage/>
 </Base>

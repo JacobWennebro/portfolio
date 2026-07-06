@@ -1,0 +1,141 @@
+---
+import searchEngines from "../data/search-engines.json";
+const searchEngineDomains = searchEngines.map((se) => se.domain);
+---
+
+<div class="referrer-popup" id="referrer-popup">
+    <div class="referrer-popup__titlebar">
+        <span>Welcome</span>
+        <button
+            class="referrer-popup__close"
+            id="referrer-popup-close"
+            aria-label="Close">&times;</button
+        >
+    </div>
+    <div class="referrer-popup__body">
+        <p>
+            Looks like you found me from the web! This is my personal website
+            where I post about my experiences and interests.
+        </p>
+        <p>If you're curious, <a href="/about">check out my about page</a>.</p>
+    </div>
+</div>
+
+<script define:vars={{ domains: searchEngineDomains }}>
+    (function () {
+        const popup = document.getElementById("referrer-popup");
+        if (!popup) return;
+
+        if (sessionStorage.getItem("welcomePopupDismissed")) return;
+
+        const referrer = document.referrer;
+        const closeBtn = document.getElementById("referrer-popup-close");
+        const aboutLink = popup.querySelector('a[href="/about"]');
+
+        const isSearchEngine = domains.some(function (domain) {
+            return referrer.indexOf(domain) !== -1;
+        });
+
+        if (
+            (referrer && isSearchEngine) ||
+            document.location.hostname === "localhost"
+        ) {
+            popup.classList.add("referrer-popup--visible");
+        }
+
+        function dismiss() {
+            sessionStorage.setItem("welcomePopupDismissed", "true");
+            popup.classList.remove("referrer-popup--visible");
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", dismiss);
+        }
+
+        if (aboutLink) {
+            aboutLink.addEventListener("click", function () {
+                sessionStorage.setItem("welcomePopupDismissed", "true");
+            });
+        }
+    })();
+</script>
+
+<style>
+    .referrer-popup {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        z-index: 50;
+        width: 320px;
+        max-width: calc(100vw - 3rem);
+        background: #f5f0e1;
+        border: 2px solid #8b7355;
+        box-shadow: 4px 4px 0px #8b7355;
+        font-family:
+            ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        color: #2d2a26;
+        opacity: 0;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition:
+            opacity 0.3s ease,
+            transform 0.3s ease;
+    }
+
+    .referrer-popup--visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .referrer-popup__titlebar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0.75rem;
+        background: #e8e0d0;
+        border-bottom: 2px solid #8b7355;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .referrer-popup__close {
+        background: #f5f0e1;
+        border: 2px solid #8b7355;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+        color: #2d2a26;
+        padding: 0;
+    }
+
+    .referrer-popup__close:hover {
+        background: #8b7355;
+        color: #f5f0e1;
+    }
+
+    .referrer-popup__body {
+        padding: 1rem;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+    }
+
+    .referrer-popup__body p + p {
+        margin-top: 0.75rem;
+    }
+
+    .referrer-popup__body a {
+        color: #8b4513;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    .referrer-popup__body a:hover {
+        color: #5a2d0c;
+    }
+</style>

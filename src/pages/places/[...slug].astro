@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import BackButton from "../../components/BackButton.astro";
+import WelcomePopup from "../../components/WelcomePopup.astro";
 import { getCollection, render } from "astro:content";
 import { Image, getImage } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
@@ -200,6 +201,8 @@ const scattered = album.data.images.map((photo, i) => ({
             </div>
         </div>
     </div>
+
+    <WelcomePopup/>
 
     <script>
         let keyboardActive = false;
