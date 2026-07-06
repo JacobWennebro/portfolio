@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+    src: ImageMetadata;
+    alt: string;
+    caption?: string;
+    exif?: {
+        coords?: string;
+        camera?: {
+            device: string;
+            settings: string;
+        };
+    } | null;
+    rotate: number;
+    offsetX: number;
+    marginTop: number;
+    index: number;
+    total: number;
+    albumName: string;
+    eager?: boolean;
+}
+
+const {
+    src,
+    alt,
+    caption,
+    exif,
+    rotate,
+    offsetX,
+    marginTop,
+    index,
+    total,
+    albumName,
+    eager = false,
+} = Astro.props;
+
+const label = `${caption ?? alt ?? `${albumName} photo ${index + 1}`}. Press arrow down to go to next, arrow up for previous, escape to clear.`;
+---
+
+<div
+    class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
+    style={`transform: rotate(${rotate.toFixed(1)}deg) translateX(${offsetX.toFixed(0)}px); margin-top: ${index === 0 ? 0 : marginTop.toFixed(0)}px; z-index: ${total - index};`}
+    tabindex="0"
+    role="button"
+    aria-label={label}
+>
+    <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
+        <Image
+            src={src}
+            alt={alt}
+            width={840}
+            quality={80}
+            class="w-full aspect-square object-cover pointer-events-none"
+            loading={eager ? "eager" : "lazy"}
+            fetchpriority={eager ? "high" : "low"}
+            data-fade
+        />
+        {
+            caption && (
+                <figcaption class="absolute bottom-4 left-3 right-3 text-center text-neutral-700 text-xs font-medium tracking-wide truncate">
+                    {caption}
+                </figcaption>
+            )
+        }
+    </figure>
+    <div
+        class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
+        style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
+    >
+        {exif?.coords && <p>{exif.coords}</p>}
+        {
+            exif?.camera && (
+                <p>
+                    Shot on {exif.camera.device}
+                    <br />
+                    {exif.camera.settings}
+                </p>
+            )
+        }
+    </div>
+</div>

@@ -2,8 +2,9 @@
 import Base from "../../layouts/Base.astro";
 import BackButton from "../../components/BackButton.astro";
 import WelcomePopup from "../../components/WelcomePopup.astro";
+import Polaroid from "../../components/Polaroid.astro";
 import { getCollection, render } from "astro:content";
-import { Image, getImage } from "astro:assets";
+import { getImage } from "astro:assets";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import exifJson from "../../data/exif.json";
 import { isoToFlagEmoji } from "../../lib/flags.ts";
@@ -119,46 +120,19 @@ const scattered = album.data.images.map((photo, i) => ({
                 <section class="relative z-10 mt-14 pb-48 max-w-xl mx-auto">
                     {
                         scattered.map((photo, i) => (
-                            <div
-                                class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)] cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
-                                style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
-                                tabindex="0"
-                                role="button"
-                                aria-label={`${photo.caption ?? photo.alt ?? `${album.data.name} photo ${i + 1}`}. Press arrow down to go to next, arrow up for previous, escape to clear.`}
-                            >
-                                <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
-                                    <Image
-                                        src={photo.src}
-                                        alt={photo.alt}
-                                        width={840}
-                                        quality={80}
-                                        class="w-full aspect-square object-cover pointer-events-none"
-                                        loading={i < 3 ? "eager" : "lazy"}
-                                        fetchpriority={i < 3 ? "high" : "low"}
-                                        data-fade
-                                    />
-                                    {photo.caption && (
-                                        <figcaption class="absolute bottom-4 left-3 right-3 text-center text-neutral-700 text-xs font-medium tracking-wide truncate">
-                                            {photo.caption}
-                                        </figcaption>
-                                    )}
-                                </figure>
-                                <div
-                                    class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
-                                    style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
-                                >
-                                    {photo.exif?.coords && (
-                                        <p>{photo.exif.coords}</p>
-                                    )}
-                                    {photo.exif?.camera && (
-                                        <p>
-                                            Shot on {photo.exif.camera.device}
-                                            <br />
-                                            {photo.exif.camera.settings}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                            <Polaroid
+                                src={photo.src}
+                                alt={photo.alt}
+                                caption={photo.caption}
+                                exif={photo.exif}
+                                rotate={photo.rotate}
+                                offsetX={photo.offsetX}
+                                marginTop={photo.marginTop}
+                                index={i}
+                                total={scattered.length}
+                                albumName={album.data.name}
+                                eager={i < 3}
+                            />
                         ))
                     }
                 </section>
