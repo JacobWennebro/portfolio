@@ -143,7 +143,7 @@ const scattered = album.data.images.map((photo, i) => ({
                             )}
                         </figure>
                         <div
-                            class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
+                            class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
                             style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
                         >
                             {photo.exif?.coords && <p>{photo.exif.coords}</p>}
@@ -202,7 +202,7 @@ const scattered = album.data.images.map((photo, i) => ({
         </div>
     </div>
 
-    <WelcomePopup/>
+    <WelcomePopup />
 
     <script>
         let keyboardActive = false;
