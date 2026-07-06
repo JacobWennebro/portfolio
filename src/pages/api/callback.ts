@@ -32,6 +32,20 @@ export const GET: APIRoute = async ({ url }) => {
         return new Response(`OAuth error: ${data.error}`, { status: 401 });
     }
 
+    // Verify the authenticated user is the allowed account
+    const userRes = await fetch("https://api.github.com/user", {
+        headers: {
+            Authorization: `Bearer ${data.access_token}`,
+            "User-Agent": "decap-cms-oauth",
+        },
+    });
+
+    const user = (await userRes.json()) as { login?: string };
+
+    if (user.login?.toLowerCase() !== "jacobwennebro") {
+        return new Response("Unauthorized: access restricted", { status: 403 });
+    }
+
     const content = `
         <script>
             (function() {
