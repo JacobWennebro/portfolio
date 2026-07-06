@@ -1,16 +1,19 @@
 ---
 name: Agadir & Ouarzazate
 country: MA
-date: "2026-01-01"
+countrySlug: morocco
+dateSlug: january-2026
+date: 2026-01-01
 images:
   - src: ../../../assets/uploads/img_0581.jpg
-    caption: Our riad's house cat Zafron
-    alt: Our riad's house cat Zafron
+    caption: Our riad's house cat Zafran
+    alt: Our riad's house cat Zafran
   - src: ../../../assets/uploads/img_0503.jpg
     caption: Paradise Valley, Agadir
     alt: Paradise Valley, Agadir
   - src: ../../../assets/uploads/img_0579.jpg
-    alt: Another picture of Zafron the cat
+    alt: Another picture of Zafran the cat
+    caption: Zafran on duty
   - src: ../../../assets/uploads/img_2719.jpg
     alt: Photo of us in an old car
   - src: ../../../assets/uploads/img_0460.jpg
