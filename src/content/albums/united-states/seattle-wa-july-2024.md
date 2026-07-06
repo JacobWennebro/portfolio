@@ -1,6 +1,7 @@
 ---
 name: Seattle, WA
 country: US
+countrySlug: united-states
 date: "2024-07-01"
 images:
   - src: ../../../assets/uploads/seattle-01.jpg

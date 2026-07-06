@@ -1,6 +1,7 @@
 ---
 name: Bojnice Castle
 country: SK
+countrySlug: slovakia
 date: "2026-06-01"
 images:
   - src: ../../../assets/uploads/bojnice-01.jpg

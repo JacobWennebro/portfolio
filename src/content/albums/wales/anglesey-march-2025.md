@@ -1,6 +1,7 @@
 ---
 name: Anglesey
 country: GB-WLS
+countrySlug: wales
 date: "2025-03-01"
 images:
   - src: ../../../assets/uploads/wales-01.jpg

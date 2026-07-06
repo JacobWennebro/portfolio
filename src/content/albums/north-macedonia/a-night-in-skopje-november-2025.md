@@ -1,6 +1,7 @@
 ---
 name: A Night in Skopje
 country: MK
+countrySlug: north-macedonia
 date: "2025-11-01"
 images:
   - src: ../../../assets/uploads/skopje-01.jpg
