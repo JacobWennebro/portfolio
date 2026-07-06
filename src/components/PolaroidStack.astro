@@ -93,32 +93,16 @@ const cards = stack.map((src, i) => ({
             ".polaroid-card",
         ) as NodeListOf<HTMLElement>;
 
-        let expanded = false;
-
-        function expand() {
-            expanded = true;
-            stack.classList.add("is-expanded");
+        stack.addEventListener("mouseenter", () => {
             cards.forEach((card) => {
                 card.style.transform = card.dataset.hover || "";
             });
-        }
+        });
 
-        function collapse() {
-            expanded = false;
-            stack.classList.remove("is-expanded");
+        stack.addEventListener("mouseleave", () => {
             cards.forEach((card) => {
                 card.style.transform = card.dataset.rest || "";
             });
-        }
-
-        stack.addEventListener("mouseenter", () => {
-            expand();
-        });
-
-        document.addEventListener("pointerdown", (e) => {
-            if (!expanded) return;
-            if (stack.contains(e.target as Node)) return;
-            collapse();
         });
     });
 </script>
