@@ -96,309 +96,314 @@ const scattered = album.data.images.map((photo, i) => ({
 >
     <BackButton href="/places" />
 
-    <header
-        class="sticky left-0 w-full z-40 pointer-events-none"
-        style="top: -72px;"
-    >
-        <div
-            class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent"
-        >
-            <h1 class="text-4xl font-semibold tracking-tight">
-                {album.data.name}
-            </h1>
-            <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
-                {countryName} / <time datetime={album.data.date}
-                    >{displayDate}</time
+    <main id="main-content" class="pb-24">
+        <article>
+            <div>
+                <header
+                    class="sticky left-0 w-full z-40 pointer-events-none"
+                    style="top: -72px;"
                 >
-            </p>
-        </div>
-    </header>
-
-    <main id="main-content" class="pb-24 mt-12 px-4 max-w-5xl mx-auto">
-        <article class="relative z-10">
-            {
-                scattered.map((photo, i) => (
                     <div
-                        class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)] cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
-                        style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
-                        tabindex="0"
-                        role="button"
-                        aria-label={`${photo.caption ?? photo.alt ?? `${album.data.name} photo ${i + 1}`}. Press arrow down to go to next, arrow up for previous, escape to clear.`}
+                        class="relative z-40 flex flex-col items-center justify-center pt-32 pb-6 transition-[padding] duration-300 ease-out bg-linear-to-b from-neutral-950 from-60% to-transparent"
                     >
-                        <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
-                            <Image
-                                src={photo.src}
-                                alt={photo.alt}
-                                width={840}
-                                quality={80}
-                                class="w-full aspect-square object-cover pointer-events-none"
-                                loading={i < 3 ? "eager" : "lazy"}
-                                fetchpriority={i < 3 ? "high" : "low"}
-                                data-fade
-                            />
-                            {photo.caption && (
-                                <figcaption class="absolute bottom-4 left-3 right-3 text-center text-neutral-700 text-xs font-medium tracking-wide truncate">
-                                    {photo.caption}
-                                </figcaption>
-                            )}
-                        </figure>
-                        <div
-                            class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
-                            style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
-                        >
-                            {photo.exif?.coords && <p>{photo.exif.coords}</p>}
-                            {photo.exif?.camera && (
-                                <p>
-                                    Shot on {photo.exif.camera.device}
-                                    <br />
-                                    {photo.exif.camera.settings}
-                                </p>
-                            )}
-                        </div>
+                        <h1 class="text-4xl font-semibold tracking-tight">
+                            {album.data.name}
+                        </h1>
+                        <p class="text-neutral-400 text-sm mt-2 text-shadow-lg">
+                            {countryName} / <time datetime={album.data.date}
+                                >{displayDate}</time
+                            >
+                        </p>
                     </div>
-                ))
-            }
+                </header>
+                <section class="relative z-10 mt-14 pb-48 max-w-xl mx-auto">
+                    {
+                        scattered.map((photo, i) => (
+                            <div
+                                class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto md:ml-[var(--offset)] cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
+                                style={`--offset: ${photo.offsetX.toFixed(0)}%; transform: rotate(${photo.rotate.toFixed(1)}deg); margin-top: ${i === 0 ? 0 : photo.marginTop.toFixed(0)}px; z-index: ${scattered.length - i};`}
+                                tabindex="0"
+                                role="button"
+                                aria-label={`${photo.caption ?? photo.alt ?? `${album.data.name} photo ${i + 1}`}. Press arrow down to go to next, arrow up for previous, escape to clear.`}
+                            >
+                                <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
+                                    <Image
+                                        src={photo.src}
+                                        alt={photo.alt}
+                                        width={840}
+                                        quality={80}
+                                        class="w-full aspect-square object-cover pointer-events-none"
+                                        loading={i < 3 ? "eager" : "lazy"}
+                                        fetchpriority={i < 3 ? "high" : "low"}
+                                        data-fade
+                                    />
+                                    {photo.caption && (
+                                        <figcaption class="absolute bottom-4 left-3 right-3 text-center text-neutral-700 text-xs font-medium tracking-wide truncate">
+                                            {photo.caption}
+                                        </figcaption>
+                                    )}
+                                </figure>
+                                <div
+                                    class="info-panel absolute [&>p]:text-wrap w-60 top-1/2 -translate-y-1/2 left-full ml-4 md:ml-6 whitespace-nowrap pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[11px] leading-relaxed text-neutral-400 hidden md:block"
+                                    style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);"
+                                >
+                                    {photo.exif?.coords && (
+                                        <p>{photo.exif.coords}</p>
+                                    )}
+                                    {photo.exif?.camera && (
+                                        <p>
+                                            Shot on {photo.exif.camera.device}
+                                            <br />
+                                            {photo.exif.camera.settings}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        ))
+                    }
+                </section>
+            </div>
 
             <!-- Written content below photos -->
-            <div
-                class="max-w-xl mx-auto mt-32 prose prose-invert prose-neutral prose-sm"
+            <section
+                class="max-w-xl px-4 mx-auto prose prose-invert prose-neutral prose-sm"
             >
                 <Content />
-            </div>
+            </section>
         </article>
     </main>
+</Base>
 
-    <div
-        id="key-hints"
-        class="fixed bottom-6 left-6 z-50 hidden md:flex flex-col gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none"
-    >
-        <div class="flex gap-1.5 justify-center">
-            <div
-                data-key="up"
-                class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
-            >
-                ↑
-            </div>
-        </div>
-        <div class="flex gap-1.5 justify-center">
-            <div
-                data-key="left"
-                class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
-            >
-                ←
-            </div>
-            <div
-                data-key="down"
-                class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
-            >
-                ↓
-            </div>
-            <div
-                data-key="right"
-                class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
-            >
-                →
-            </div>
+<div
+    id="key-hints"
+    class="fixed bottom-6 left-6 z-50 hidden md:flex flex-col gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none"
+>
+    <div class="flex gap-1.5 justify-center">
+        <div
+            data-key="up"
+            class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
+        >
+            ↑
         </div>
     </div>
+    <div class="flex gap-1.5 justify-center">
+        <div
+            data-key="left"
+            class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
+        >
+            ←
+        </div>
+        <div
+            data-key="down"
+            class="w-6 h-6 rounded border border-neutral-500/40 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-500"
+        >
+            ↓
+        </div>
+        <div
+            data-key="right"
+            class="w-6 h-6 rounded border border-neutral-700/30 bg-neutral-900/80 flex items-center justify-center text-xs text-neutral-700"
+        >
+            →
+        </div>
+    </div>
+</div>
 
-    <WelcomePopup />
+<WelcomePopup />
 
-    <script>
-        let keyboardActive = false;
+<script>
+    let keyboardActive = false;
 
-        window.addEventListener("scroll", () => {}, { passive: true });
+    window.addEventListener("scroll", () => {}, { passive: true });
 
-        const polaroids = document.querySelectorAll(
-            ".polaroid",
-        ) as NodeListOf<HTMLElement>;
-        const keyHints = document.getElementById("key-hints")!;
-        let activeIndex = -1;
+    const polaroids = document.querySelectorAll(
+        ".polaroid",
+    ) as NodeListOf<HTMLElement>;
+    const keyHints = document.getElementById("key-hints")!;
+    let activeIndex = -1;
 
-        function highlightPolaroid(index: number) {
-            keyboardActive = true;
-            activeIndex = index;
-            const total = polaroids.length;
-            polaroids.forEach((el, i) => {
-                el.style.transition = "filter 0.3s ease";
-                if (i === activeIndex) {
-                    el.style.filter = "";
-                    el.style.zIndex = String(total + 1);
-                    el.classList.add("highlighted");
-                } else {
-                    el.style.filter = "brightness(0.3)";
-                    el.style.zIndex = String(total - i);
-                    el.classList.remove("highlighted");
-                }
-            });
-            keyHints.classList.remove("opacity-0");
-            keyHints.classList.add("opacity-100");
-
-            const el = polaroids[activeIndex];
-            el.focus();
-            const rect = el.getBoundingClientRect();
-            const elCenter = rect.top + rect.height / 2;
-            const viewCenter = window.innerHeight / 2;
-            const scrollTarget = window.scrollY + (elCenter - viewCenter);
-            const lenis = (window as any).__lenis;
-            if (lenis) {
-                lenis.scrollTo(scrollTarget, { duration: 1.2 });
-            }
-        }
-
-        function clearHighlight() {
-            keyboardActive = false;
-            activeIndex = -1;
-            const total = polaroids.length;
-            polaroids.forEach((el, i) => {
+    function highlightPolaroid(index: number) {
+        keyboardActive = true;
+        activeIndex = index;
+        const total = polaroids.length;
+        polaroids.forEach((el, i) => {
+            el.style.transition = "filter 0.3s ease";
+            if (i === activeIndex) {
                 el.style.filter = "";
+                el.style.zIndex = String(total + 1);
+                el.classList.add("highlighted");
+            } else {
+                el.style.filter = "brightness(0.3)";
                 el.style.zIndex = String(total - i);
                 el.classList.remove("highlighted");
-            });
-            keyHints.classList.add("opacity-0");
-            keyHints.classList.remove("opacity-100");
-        }
+            }
+        });
+        keyHints.classList.remove("opacity-0");
+        keyHints.classList.add("opacity-100");
 
-        function findClosestToCenter(): number {
-            const viewCenter = window.innerHeight / 2;
-            let closest = 0;
-            let minDist = Infinity;
-            polaroids.forEach((el, i) => {
-                const rect = el.getBoundingClientRect();
-                const elCenter = rect.top + rect.height / 2;
-                const dist = Math.abs(elCenter - viewCenter);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closest = i;
-                }
-            });
-            return closest;
+        const el = polaroids[activeIndex];
+        el.focus();
+        const rect = el.getBoundingClientRect();
+        const elCenter = rect.top + rect.height / 2;
+        const viewCenter = window.innerHeight / 2;
+        const scrollTarget = window.scrollY + (elCenter - viewCenter);
+        const lenis = (window as any).__lenis;
+        if (lenis) {
+            lenis.scrollTo(scrollTarget, { duration: 1.2 });
         }
+    }
 
-        function animateKey(name: string) {
-            const key = document.querySelector(
-                `[data-key="${name}"]`,
-            ) as HTMLElement | null;
-            if (!key) return;
-            key.classList.remove("key-pressed");
-            void key.offsetWidth; // force reflow
-            key.classList.add("key-pressed");
-        }
-
+    function clearHighlight() {
+        keyboardActive = false;
+        activeIndex = -1;
+        const total = polaroids.length;
         polaroids.forEach((el, i) => {
-            el.addEventListener("click", (e) => {
-                if (activeIndex === i) {
+            el.style.filter = "";
+            el.style.zIndex = String(total - i);
+            el.classList.remove("highlighted");
+        });
+        keyHints.classList.add("opacity-0");
+        keyHints.classList.remove("opacity-100");
+    }
+
+    function findClosestToCenter(): number {
+        const viewCenter = window.innerHeight / 2;
+        let closest = 0;
+        let minDist = Infinity;
+        polaroids.forEach((el, i) => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = rect.top + rect.height / 2;
+            const dist = Math.abs(elCenter - viewCenter);
+            if (dist < minDist) {
+                minDist = dist;
+                closest = i;
+            }
+        });
+        return closest;
+    }
+
+    function animateKey(name: string) {
+        const key = document.querySelector(
+            `[data-key="${name}"]`,
+        ) as HTMLElement | null;
+        if (!key) return;
+        key.classList.remove("key-pressed");
+        void key.offsetWidth; // force reflow
+        key.classList.add("key-pressed");
+    }
+
+    polaroids.forEach((el, i) => {
+        el.addEventListener("click", (e) => {
+            if (activeIndex === i) {
+                clearHighlight();
+            } else {
+                highlightPolaroid(i);
+            }
+        });
+
+        el.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                animateKey("down");
+                const next =
+                    activeIndex < polaroids.length - 1
+                        ? activeIndex + 1
+                        : activeIndex;
+                if (activeIndex === -1) {
+                    highlightPolaroid(findClosestToCenter());
+                } else {
+                    highlightPolaroid(next);
+                }
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                animateKey("up");
+                if (activeIndex <= 0) {
                     clearHighlight();
                 } else {
-                    highlightPolaroid(i);
+                    highlightPolaroid(activeIndex - 1);
                 }
-            });
-
-            el.addEventListener("keydown", (e) => {
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    animateKey("down");
-                    const next =
-                        activeIndex < polaroids.length - 1
-                            ? activeIndex + 1
-                            : activeIndex;
-                    if (activeIndex === -1) {
-                        highlightPolaroid(findClosestToCenter());
-                    } else {
-                        highlightPolaroid(next);
-                    }
-                } else if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    animateKey("up");
-                    if (activeIndex <= 0) {
-                        clearHighlight();
-                    } else {
-                        highlightPolaroid(activeIndex - 1);
-                    }
-                } else if (e.key === "Escape") {
-                    clearHighlight();
-                }
-            });
-
-            el.addEventListener("blur", (e) => {
-                // Only clear if focus moved outside all polaroids
-                const related = e.relatedTarget as HTMLElement | null;
-                if (related && related.closest(".polaroid")) return;
-                if (activeIndex === i) {
-                    clearHighlight();
-                }
-            });
+            } else if (e.key === "Escape") {
+                clearHighlight();
+            }
         });
 
-        // Dismiss highlight when clicking outside any polaroid
-        document.addEventListener("pointerdown", (e) => {
+        el.addEventListener("blur", (e) => {
+            // Only clear if focus moved outside all polaroids
+            const related = e.relatedTarget as HTMLElement | null;
+            if (related && related.closest(".polaroid")) return;
+            if (activeIndex === i) {
+                clearHighlight();
+            }
+        });
+    });
+
+    // Dismiss highlight when clicking outside any polaroid
+    document.addEventListener("pointerdown", (e) => {
+        if (activeIndex === -1) return;
+        const target = e.target as HTMLElement;
+        if (target.closest(".polaroid")) return;
+        clearHighlight();
+    });
+
+    // Dismiss highlight when the active polaroid is nearly out of viewport
+    window.addEventListener(
+        "scroll",
+        () => {
             if (activeIndex === -1) return;
-            const target = e.target as HTMLElement;
-            if (target.closest(".polaroid")) return;
-            clearHighlight();
+            const el = polaroids[activeIndex];
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const visibleHeight =
+                Math.min(rect.bottom, window.innerHeight) -
+                Math.max(rect.top, 0);
+            const ratio = visibleHeight / rect.height;
+            if (ratio < 0.4) {
+                clearHighlight();
+            }
+        },
+        { passive: true },
+    );
+</script>
+
+<script define:vars={{ flag }}>
+    (async () => {
+        const canvas = new OffscreenCanvas(64, 64);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.clearRect(0, 0, 64, 64);
+        ctx.font =
+            '64px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(flag, 32, 34);
+        const blob = await canvas.convertToBlob({ type: "image/png" });
+        const dataUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
         });
-
-        // Dismiss highlight when the active polaroid is nearly out of viewport
-        window.addEventListener(
-            "scroll",
-            () => {
-                if (activeIndex === -1) return;
-                const el = polaroids[activeIndex];
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const visibleHeight =
-                    Math.min(rect.bottom, window.innerHeight) -
-                    Math.max(rect.top, 0);
-                const ratio = visibleHeight / rect.height;
-                if (ratio < 0.4) {
-                    clearHighlight();
-                }
-            },
-            { passive: true },
-        );
-    </script>
-
-    <script define:vars={{ flag }}>
-        (async () => {
-            const canvas = new OffscreenCanvas(64, 64);
-            const ctx = canvas.getContext("2d");
-            if (!ctx) return;
-            ctx.clearRect(0, 0, 64, 64);
-            ctx.font =
-                '64px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif';
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(flag, 32, 34);
-            const blob = await canvas.convertToBlob({ type: "image/png" });
-            const dataUrl = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(blob);
-            });
-            const link = document.querySelector('link[rel="icon"]');
-            if (link) {
-                link.href = dataUrl;
-                link.removeAttribute("type");
-            }
-        })();
-    </script>
-
-    <style>
-        @keyframes key-press {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(2px);
-                background: rgba(255, 255, 255, 0.08);
-            }
-            100% {
-                transform: translateY(0);
-            }
+        const link = document.querySelector('link[rel="icon"]');
+        if (link) {
+            link.href = dataUrl;
+            link.removeAttribute("type");
         }
+    })();
+</script>
 
-        .key-pressed {
-            animation: key-press 0.15s ease-out;
+<style>
+    @keyframes key-press {
+        0% {
+            transform: translateY(0);
         }
-    </style>
-</Base>
+        50% {
+            transform: translateY(2px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    .key-pressed {
+        animation: key-press 0.15s ease-out;
+    }
+</style>
