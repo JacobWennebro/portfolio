@@ -320,18 +320,42 @@ const scattered = album.data.images.map((photo, i) => ({
                 }
             });
 
-            el.addEventListener("blur", () => {
-                if (activeIndex === i) {
-                    clearHighlight();
-                }
-            });
-
-            el.addEventListener("mouseleave", () => {
+            el.addEventListener("blur", (e) => {
+                // Only clear if focus moved outside all polaroids
+                const related = e.relatedTarget as HTMLElement | null;
+                if (related && related.closest(".polaroid")) return;
                 if (activeIndex === i) {
                     clearHighlight();
                 }
             });
         });
+
+        // Dismiss highlight when clicking outside any polaroid
+        document.addEventListener("pointerdown", (e) => {
+            if (activeIndex === -1) return;
+            const target = e.target as HTMLElement;
+            if (target.closest(".polaroid")) return;
+            clearHighlight();
+        });
+
+        // Dismiss highlight when the active polaroid is nearly out of viewport
+        window.addEventListener(
+            "scroll",
+            () => {
+                if (activeIndex === -1) return;
+                const el = polaroids[activeIndex];
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                const visibleHeight =
+                    Math.min(rect.bottom, window.innerHeight) -
+                    Math.max(rect.top, 0);
+                const ratio = visibleHeight / rect.height;
+                if (ratio < 0.4) {
+                    clearHighlight();
+                }
+            },
+            { passive: true },
+        );
     </script>
 
     <script define:vars={{ flag }}>
