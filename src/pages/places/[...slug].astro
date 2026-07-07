@@ -97,7 +97,7 @@ const scattered = album.data.images.map((photo, i) => ({
 >
     <BackButton href="/places" />
 
-    <main id="main-content" class="pb-24 overflow-x-hidden">
+    <main id="main-content" class="pb-24">
         <article>
             <div>
                 <header
@@ -117,27 +117,30 @@ const scattered = album.data.images.map((photo, i) => ({
                         </p>
                     </div>
                 </header>
-                <section
-                    role="list"
-                    class="relative z-10 mt-14 pb-48 max-w-xl mx-auto"
-                >
-                    {
-                        scattered.map((photo, i) => (
-                            <Polaroid
-                                src={photo.src}
-                                alt={photo.alt}
-                                caption={photo.caption}
-                                exif={photo.exif}
-                                rotate={photo.rotate}
-                                offsetX={photo.offsetX}
-                                marginTop={photo.marginTop}
-                                index={i}
-                                total={scattered.length}
-                                albumName={album.data.name}
-                                eager={i < 3}
-                            />
-                        ))
-                    }
+                <section class="overflow-x-hidden">
+                    <div
+                        role="list"
+                        class="relative z-10 mt-14 pb-48 max-w-xl mx-auto"
+                        aria-roledescription="gallery"
+                    >
+                        {
+                            scattered.map((photo, i) => (
+                                <Polaroid
+                                    src={photo.src}
+                                    alt={photo.alt}
+                                    caption={photo.caption}
+                                    exif={photo.exif}
+                                    rotate={photo.rotate}
+                                    offsetX={photo.offsetX}
+                                    marginTop={photo.marginTop}
+                                    index={i}
+                                    total={scattered.length}
+                                    albumName={album.data.name}
+                                    eager={i < 3}
+                                />
+                            ))
+                        }
+                    </div>
                 </section>
             </div>
 
