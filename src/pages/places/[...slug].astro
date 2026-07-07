@@ -117,7 +117,10 @@ const scattered = album.data.images.map((photo, i) => ({
                         </p>
                     </div>
                 </header>
-                <section class="relative z-10 mt-14 pb-48 max-w-xl mx-auto">
+                <section
+                    role="list"
+                    class="relative z-10 mt-14 pb-48 max-w-xl mx-auto"
+                >
                     {
                         scattered.map((photo, i) => (
                             <Polaroid

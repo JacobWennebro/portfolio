@@ -43,7 +43,7 @@ const label = `${caption ?? alt ?? `${albumName} photo ${index + 1}`}. Press arr
     class="polaroid relative w-[85vw] md:w-[340px] lg:w-[420px] mx-auto cursor-pointer [&.highlighted]:cursor-default [&.highlighted>.info-panel]:opacity-100"
     style={`transform: rotate(${rotate.toFixed(1)}deg) translateX(${offsetX.toFixed(0)}px); margin-top: ${index === 0 ? 0 : marginTop.toFixed(0)}px; z-index: ${total - index};`}
     tabindex="0"
-    role="button"
+    role="listitem"
     aria-label={label}
 >
     <figure class="bg-white select-none p-3 pb-14 shadow-2xl shadow-black/40">
