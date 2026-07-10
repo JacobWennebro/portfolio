@@ -13,21 +13,32 @@ interface Props {
     jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, ogImage, ogImageWidth, ogImageHeight, publishedDate, jsonLd } = Astro.props;
+const {
+    title,
+    description,
+    ogImage,
+    ogImageWidth,
+    ogImageHeight,
+    publishedDate,
+    jsonLd,
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const defaultDescription = "Jacob Wennebro — software engineer.";
 const metaDescription = description || defaultDescription;
 const siteName = "Jacob Wennebro";
 const gravatarHash = await getGravatarHash("jacob@wennebro.com");
-const gravatarUrl = `https://gravatar.com/avatar/${gravatarHash}?s=512`;
+const gravatarUrl = `https://gravatar.com/avatar/${gravatarHash}`;
 
 const ogImageExplicit = !!ogImage;
 const ogImageURL = ogImageExplicit
-  ? (ogImage.startsWith("http") ? ogImage : new URL(ogImage, Astro.site).href)
-  : gravatarUrl;
+    ? ogImage.startsWith("http")
+        ? ogImage
+        : new URL(ogImage, Astro.site).href
+    : gravatarUrl + "?s=512";
 
 const finalOgImageWidth = ogImageWidth ?? (!ogImageExplicit ? 512 : undefined);
-const finalOgImageHeight = ogImageHeight ?? (!ogImageExplicit ? 512 : undefined);
+const finalOgImageHeight =
+    ogImageHeight ?? (!ogImageExplicit ? 512 : undefined);
 ---
 
 <html lang="en">
@@ -54,7 +65,7 @@ const finalOgImageHeight = ogImageHeight ?? (!ogImageExplicit ? 512 : undefined)
             type="font/woff2"
             crossorigin
         />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" href={gravatarUrl + "?s=64"} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0a0a0a" />
         <meta name="color-scheme" content="dark" />
@@ -89,12 +100,14 @@ const finalOgImageHeight = ogImageHeight ?? (!ogImageExplicit ? 512 : undefined)
                 ],
             })}
         />
-        {jsonLd?.map((obj) => (
-            <script
-                type="application/ld+json"
-                set:html={JSON.stringify(obj)}
-            />
-        ))}
+        {
+            jsonLd?.map((obj) => (
+                <script
+                    type="application/ld+json"
+                    set:html={JSON.stringify(obj)}
+                />
+            ))
+        }
 
         <!-- Open Graph -->
         <meta property="og:type" content="website" />
@@ -103,15 +116,28 @@ const finalOgImageHeight = ogImageHeight ?? (!ogImageExplicit ? 512 : undefined)
         <meta property="og:description" content={metaDescription} />
         <meta property="og:site_name" content={siteName} />
         <meta property="og:image" content={ogImageURL} />
-        {finalOgImageWidth && finalOgImageHeight && (
-            <>
-                <meta property="og:image:width" content={String(finalOgImageWidth)} />
-                <meta property="og:image:height" content={String(finalOgImageHeight)} />
-            </>
-        )}
-        {publishedDate && (
-            <meta property="article:published_time" content={publishedDate} />
-        )}
+        {
+            finalOgImageWidth && finalOgImageHeight && (
+                <>
+                    <meta
+                        property="og:image:width"
+                        content={String(finalOgImageWidth)}
+                    />
+                    <meta
+                        property="og:image:height"
+                        content={String(finalOgImageHeight)}
+                    />
+                </>
+            )
+        }
+        {
+            publishedDate && (
+                <meta
+                    property="article:published_time"
+                    content={publishedDate}
+                />
+            )
+        }
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
