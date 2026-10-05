@@ -5,6 +5,66 @@ import tailwindcss from '@tailwindcss/vite';
 import rehypeExternalLinks from 'rehype-external-links';
 
 import cloudflare from '@astrojs/cloudflare';
+import { readdirSync } from 'node:fs';
+import { join, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const archiveRoot = fileURLToPath(new URL('./public/archive', import.meta.url));
+const archiveModuleId = 'virtual:archive-filesystem';
+const resolvedArchiveModuleId = `\0${archiveModuleId}`;
+
+/**
+ * @typedef {{ name: string; type: 'file' } | { name: string; type: 'directory'; children: ArchiveNode[] }} ArchiveNode
+ */
+/**
+ * @param {string} directory
+ * @returns {ArchiveNode[]}
+ */
+function readArchiveDirectory(directory) {
+  return readdirSync(directory, { withFileTypes: true })
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((entry) => {
+      if (entry.isDirectory()) {
+        return {
+          name: entry.name,
+          type: /** @type {'directory'} */ ('directory'),
+          children: readArchiveDirectory(join(directory, entry.name)),
+        };
+      }
+
+      return {
+        name: entry.name,
+        type: /** @type {'file'} */ ('file'),
+      };
+    });
+}
+
+/** @returns {import('vite').Plugin} */
+function archiveFilesystemPlugin() {
+  return {
+    name: 'archive-filesystem',
+    /** @param {string} id */
+    resolveId(id) {
+      return id === archiveModuleId ? resolvedArchiveModuleId : undefined;
+    },
+    /** @param {string} id */
+    load(id) {
+      if (id === resolvedArchiveModuleId) {
+        return `export default ${JSON.stringify(readArchiveDirectory(archiveRoot))};`;
+      }
+    },
+    configureServer(server) {
+      server.watcher.add(archiveRoot);
+      server.watcher.on('all', (_event, changedPath) => {
+        if (!changedPath.startsWith(`${archiveRoot}${sep}`)) return;
+
+        const module = server.moduleGraph.getModuleById(resolvedArchiveModuleId);
+        if (module) server.moduleGraph.invalidateModule(module);
+        server.ws.send({ type: 'full-reload' });
+      });
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,7 +88,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [archiveFilesystemPlugin(), tailwindcss()],
     server: {
       allowedHosts: ['.ngrok-free.app']
     }

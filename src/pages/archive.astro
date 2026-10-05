@@ -1,0 +1,87 @@
+---
+import archiveFilesystem, {
+    type ArchiveNode,
+} from "virtual:archive-filesystem";
+
+type ArchiveDirectory = Extract<ArchiveNode, { type: "directory" }>;
+
+interface ArchiveEntry {
+    name: string;
+    href: string;
+}
+
+function findArchiveEntries(
+    directory: ArchiveDirectory,
+    pathSegments: string[],
+): ArchiveEntry[] {
+    if (
+        directory.children.some(
+            (child) => child.type === "file" && child.name === "index.html",
+        )
+    ) {
+        return [
+            {
+                name: pathSegments.slice(1).join(" / ") || pathSegments[0],
+                href: `/archive/${pathSegments.map(encodeURIComponent).join("/")}`,
+            },
+        ];
+    }
+
+    return directory.children
+        .filter(
+            (child): child is ArchiveDirectory => child.type === "directory",
+        )
+        .flatMap((child) =>
+            findArchiveEntries(child, [...pathSegments, child.name]),
+        );
+}
+
+const archiveYears = archiveFilesystem
+    .filter((entry): entry is ArchiveDirectory => entry.type === "directory")
+    .sort((a, b) => b.name.localeCompare(a.name))
+    .map((year) => ({
+        year: year.name,
+        archives: findArchiveEntries(year, [year.name]),
+    }))
+    .filter((group) => group.archives.length > 0);
+
+const dog = `
+░▄▀▄▀▀▀▀▄▀▄░░░░░░░░░
+░█░░░░░░░░▀▄░░░░░░▄░
+█░░▀░░▀░░░░░▀▄▄░░█░█
+█░▄░█▀░▄░░░░░░░▀▀░░█
+█░░▀▀▀▀░░░░░░░░░░░░█  * /archive *
+█░░░░░░░░░░░░░░░░░░█  where I post stuff I want to archive
+█░░░░░░░░░░░░░░░░░░█  on the internets..
+░█░░▄▄░░▄▄▄▄░░▄▄░░█░
+░█░▄▀█░▄▀░░█░▄▀█░▄▀░
+░░▀░░░▀░░░░░▀░░░▀░░░
+`
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Archive / Jacob Wennebro</title>
+    </head>
+    <body>
+        <pre>{dog}</pre>
+        {
+            archiveYears.map(({ year, archives }) => (
+                <fieldset>
+                    <legend>{year}</legend>
+                    <ul>
+                        {archives.map((archive) => (
+                            <li>
+                                <a href={archive.href}>
+                                    <b>{archive.name}</b>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </fieldset>
+            ))
+        }
+    </body>
+</html>
