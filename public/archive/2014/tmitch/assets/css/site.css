@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Black Ops One';
+  src: url('../fonts/black-ops-one.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+body {
+  background: #000 url('../images/Apple-Wallpapers-Photos.jpg') center center / cover fixed no-repeat;
+  min-height: 100vh;
+}
+.games-page { background: #000; }

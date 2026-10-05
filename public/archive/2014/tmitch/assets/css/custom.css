@@ -1,0 +1,15 @@
+#treemenu1, #treemenu1 ul {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.suckertreemenu ul li a, .suckertreemenu ul li a:link, .suckertreemenu ul li a:visited, .suckertreemenu ul li a:active{
+	color:rgb(255, 255, 255);
+	font-family: 'Black Ops One', cursive;
+	font-size: 12pt;
+	text-decoration: underline;
+	padding-top: 0;
+ }
+.suckertreemenu ul li a:hover{
+	color:rgb(246, 178, 107);
+	text-decoration: underline;
+ }
