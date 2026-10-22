@@ -66,6 +66,38 @@ function archiveFilesystemPlugin() {
   };
 }
 
+/**
+ * Rewrites markdown links to `#email` into the same obfuscated markup as EmailField,
+ * so posts can link to the email without it appearing in the HTML.
+ */
+function rehypeEmailLinks() {
+  /** @param {any} node */
+  const walk = (node) => {
+    if (!node.children) return;
+    node.children = node.children.map((child) => {
+      if (child.type === 'element' && child.tagName === 'a' && child.properties?.href === '#email') {
+        return {
+          type: 'element',
+          tagName: 'span',
+          properties: { className: ['relative'] },
+          children: [
+            {
+              type: 'element',
+              tagName: 'a',
+              properties: { href: 'mailto:hello@bot.notmyactualemail.com', ariaHidden: 'true', tabIndex: -1, className: ['absolute', 'inset-0', 'pointer-events-none'] },
+              children: [],
+            },
+            { ...child, properties: { href: '#', className: ['c-link'] } },
+          ],
+        };
+      }
+      walk(child);
+      return child;
+    });
+  };
+  return walk;
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.wennebro.com',
@@ -83,6 +115,7 @@ export default defineConfig({
 
   markdown: {
     rehypePlugins: [
+      rehypeEmailLinks,
       [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
     ],
   },

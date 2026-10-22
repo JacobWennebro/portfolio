@@ -28,4 +28,4 @@ The phone adds a storage location without requiring any changes to the server. T
 
 It's not a complicated setup. A single Shortcut with a URL fetch, an error check, and a file save. Runs at 1am while the phone charges. Self-hosting a password manager means the recovery bar is higher than almost anything else, so having the vault in multiple places with minimal effort feels like a reasonable tradeoff for an afternoon of setup.
 
-If you have thoughts or a different approach, feel free to [shoot me an email](mailto:jacob@wennebro.com). :)
+If you have thoughts or a different approach, feel free to [shoot me an email](#email). :)
