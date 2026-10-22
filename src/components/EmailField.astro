@@ -9,7 +9,7 @@ const { class: className } = Astro.props;
 const hasLabel = Astro.slots.has("default");
 ---
 <span class="relative inline-flex">
-    <a href="mailto:hello@bot.notmyactualemail.com" aria-hidden="true" tabindex="-1" class="absolute inset-0 pointer-events-none"></a>
+    <a href="mailto:void@wennebro.com" aria-hidden="true" tabindex="-1" class="absolute inset-0 pointer-events-none"></a>
     {hasLabel ? (
         <button type="button" class:list={["c-link cursor-pointer", className]}>
             <slot />
